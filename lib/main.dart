@@ -3,11 +3,14 @@ import 'login_page.dart';
 import 'register_page.dart';
 import 'disclaimer_page.dart';
 import 'app_shell.dart';
+import 'transactions/confirmation_page.dart';
+import 'transactions/success_page.dart';
+import 'transactions/transaction_page.dart';
 
 // Define the primary pink color from the screenshots
-const Color primaryPink = Color(0xFFE91E63); // A guess, adjust as needed
-const Color darkBg = Color(0xFF1A1A1A); // A guess for the dark background
-const Color darkCard = Color(0xFF2C2C2C); // A guess for card backgrounds
+const Color primaryPink = Color(0xFFE91E63);
+const Color darkBg = Color(0xFF1A1A1A);
+const Color darkCard = Color(0xFF2C2C2C);
 
 void main() {
   runApp(const MyApp());
@@ -57,8 +60,10 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/disclaimer': (context) => const DisclaimerPage(),
-        '/app': (context) =>
-            const AppShell(), // This will be the main app with bottom nav
+        '/app': (context) => const AppShell(),
+        '/transactions': (context) => const TransactionPage(),
+        '/transactions/confirmation': (context) => const ConfirmationPage(),
+        '/transactions/success': (context) => const SuccessPage(),
       },
     );
   }
