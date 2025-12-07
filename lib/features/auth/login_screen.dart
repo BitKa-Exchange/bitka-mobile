@@ -2,8 +2,8 @@ import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:bitka/features/auth/register_screen.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
-import '../../shared/widgets/migrate/button.dart';
-import '../../shared/widgets/migrate/input_field.dart';
+import '../../shared/widgets/button.dart';
+import '../../shared/widgets/input_field.dart';
 import '../../shared/widgets/social_button.dart';
 
 class LoginScreen extends StatefulWidget {

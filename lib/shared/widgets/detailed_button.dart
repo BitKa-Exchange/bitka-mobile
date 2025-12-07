@@ -15,6 +15,7 @@ class DetailedButton extends StatelessWidget {
   final Widget? iconRight;
   final String? subText;
   final String? rightText;
+  final Color? rightTextColor;
   final String? subRightText;
   final String? detailText;
 
@@ -30,6 +31,7 @@ class DetailedButton extends StatelessWidget {
     this.iconRight,
     this.subText,
     this.rightText,
+    this.rightTextColor,
     this.subRightText,
     this.detailText,
   });
@@ -40,42 +42,39 @@ class DetailedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine button padding: using the padding from the old CryptoSelectionInput for Min state
     final bool hasDetail = detailText != null;
     final EdgeInsets buttonPadding = hasDetail
-        ? const EdgeInsets.all(16) // Larger padding for 'Full' detail view
-        : const EdgeInsets.symmetric(horizontal: 18, vertical: 10); // Matches old CryptoSelectionInput padding
+        ? const EdgeInsets.all(16)
+        : const EdgeInsets.symmetric(horizontal: 18, vertical: 10);
 
-    // Use the static radius (8.0) for the min/input look, or 16.0 for the full/detail look
     final BorderRadius buttonRadius = BorderRadius.circular(
       hasDetail ? 16 : buttonBorderRadius, 
     );
 
-    // --- Top Section Widget (Handles text, subText, rightText, etc.) ---
     final topSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // LEFT CONTENT
         Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center, // Added for vertical alignment
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (iconLeft != null) ...[
               iconLeft!,
-              const SizedBox(width: 12), // Adjusted spacing to match old input
+              const SizedBox(width: 12),
             ],
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // MAIN TEXT (Crypto Code)
+                // MAIN TEXT
                 Text(
                   text,
                   style: TextStyle(
                     color: foregroundColor,
-                    fontSize: 17, // Adjusted font size to match old input
+                    fontSize: 17,
                     fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w800, // Adjusted font weight
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 // SUB TEXT (Available Credit)
@@ -83,7 +82,7 @@ class DetailedButton extends StatelessWidget {
                   Text(
                     subText!,
                     style: TextStyle(
-                      color: hasDetail ? foregroundColor : AppColors.textTertiary, // Use AppColors.textTertiary for subtext in the min/default view for aesthetic match
+                      color: hasDetail ? foregroundColor : AppColors.textTertiary,
                       fontSize: 12,
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w800,
@@ -97,29 +96,29 @@ class DetailedButton extends StatelessWidget {
         // RIGHT CONTENT
         Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center, // Added for vertical alignment
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (rightText != null)
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // RIGHT TEXT (Crypto Value)
+                  // RIGHT TEXT
                   Text(
                     rightText!,
                     style: TextStyle(
-                      color: foregroundColor,
+                      color: rightTextColor ?? foregroundColor,
                       fontSize: 17, // Adjusted font size
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w800, // Adjusted font weight
                     ),
                   ),
-                  // SUB RIGHT TEXT (Fiat Value)
+                  // SUB RIGHT TEXT
                   if (subRightText != null)
                     Text(
                       subRightText!,
                       style: TextStyle(
-                        color: hasDetail ? foregroundColor : AppColors.textTertiary, // Use AppColors.textTertiary for subtext in the min/default view
+                        color: foregroundColor, // Use AppColors.textTertiary for subtext in the min/default view
                         fontSize: 12,
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w800,

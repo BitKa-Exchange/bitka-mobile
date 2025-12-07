@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
-import '../../shared/widgets/migrate/button.dart';
-import '../../shared/widgets/migrate/input_field.dart';
-import '../../shared/widgets/migrate/agreement_field.dart';
+import '../../shared/widgets/button.dart';
+import '../../shared/widgets/input_field.dart';
+import '../../shared/widgets/agreement_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

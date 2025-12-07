@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:bitka/core/theme/app_colors.dart';
 
-// 1. Data Model for the Card
+// --- 1. Data Model for the Card (Unchanged) ---
 class PerformanceData {
-  final double percentage; // e.g., 67.0 or -92.0
-  final double value; // e.g., 10293.01
-  final List<double> chartData; // List of data points for the sparkline
-  
+  final double percentage;
+  final double value;
+  final List<double> chartData;
+
   PerformanceData({
     required this.percentage,
     required this.value,
@@ -14,214 +15,174 @@ class PerformanceData {
   });
 }
 
+// --- 2. The Reusable Chart Card Component (PerformanceCard) ---
 class PerformanceCard extends StatelessWidget {
   final PerformanceData data;
-  final double width;
-  final double height;
 
   const PerformanceCard({
     super.key,
     required this.data,
-    this.width = 339,
-    this.height = 124,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Determine the color based on the percentage sign
+    final double cardWidth = MediaQuery.of(context).size.width - 64; 
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: cardWidth,
+          height: 120, // Fixed height for the card
+          // Removed padding here to prevent extra space around the chart component,
+          // though we still need space for the header.
+          decoration: BoxDecoration(
+            color: AppColors.backgroundCardDefault, 
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header needs its own padding
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                child: _buildHeader(context),
+              ),
+              const SizedBox(height: 8),
+              
+              // Chart area takes up the rest of the vertical space
+              Expanded(
+                // Use horizontal padding only for the chart line itself, 
+                // which helps prevent the line cap from being clipped.
+                child: _buildLineChart(),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
     final bool isPositive = data.percentage >= 0;
     final Color trendColor = isPositive ? AppColors.utilityGreen : AppColors.utilityRed;
-    final String sign = isPositive ? '+' : '';
-    
-    // Format the text content
-    final String percentageText = '$sign${data.percentage.abs().toStringAsFixed(0)}%';
+    final String percentageText = '${isPositive ? '+' : ''}${data.percentage.toStringAsFixed(0)}%';
     final String valueText = '${data.value.toStringAsFixed(2)} THB';
 
-    return Container(
-      width: width,
-      height: height,
-      clipBehavior: Clip.antiAlias,
-      decoration: ShapeDecoration(
-        color: AppColors.backgroundCardDefault, // 0xFF2C2C2C
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-      ),
-      child: Stack(
-        children: [
-          // 2. Background Gradient (from original code, used as a subtle overlay)
-          Align(
-            alignment: Alignment.topRight,
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: const BoxDecoration(
-                // Use the RadialGradient provided in the original code
-                gradient: RadialGradient(
-                  center: Alignment(0.90, 0.12),
-                  radius: 2.72,
-                  colors: [Color(0xFF1E1E1E), Color(0x001E1E1E)],
-                ),
-              ),
-            ),
-          ),
-          
-          // 3. The Sparkline Chart (Mock element)
-          // This positioned widget simulates the area where the actual line chart would sit.
-          _ChartPlaceholder(
-            data: data.chartData,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          percentageText,
+          style: TextStyle(
             color: trendColor,
+            fontSize: 20,
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w800,
           ),
+        ),
+        const SizedBox(width: 8),
+        Icon(
+          isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+          color: trendColor,
+          size: 30,
+        ),
+        Text(
+          valueText,
+          style: const TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 20,
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ],
+    );
+  }
 
-          // 4. Data Text Overlay
-          Positioned(
-            left: 24, // Adjusted from 47 to give proper left padding
-            top: 13,
-            child: Container(
-              // Using a Container to apply the shadow effect as in the original code
-              decoration: BoxDecoration(
-                boxShadow: [
-                  const BoxShadow(
-                    color: AppColors.shadowColor, // 0xFF000000 with 3F alpha
-                    blurRadius: 18.70,
-                    offset: Offset(0, 0),
-                    spreadRadius: 0,
-                  )
+// Helper method to build the LineChart using fl_chart
+  Widget _buildLineChart() {
+    final bool isPositive = data.percentage >= 0;
+    final Color trendColor = isPositive ? AppColors.utilityGreen : AppColors.utilityRed;
+
+    if (data.chartData.isEmpty) {
+      return Container();
+    }
+    
+    // Normalize data points
+    final double minVal = data.chartData.reduce((a, b) => a < b ? a : b);
+    final double maxVal = data.chartData.reduce((a, b) => a > b ? a : b);
+
+    List<FlSpot> spots = data.chartData
+        .asMap()
+        .entries
+        .map((entry) => FlSpot(entry.key.toDouble(), entry.value))
+        .toList();
+    
+    // Set minX and maxX to exactly match the start (0) and end index of the data.
+    // This tells fl_chart that the chart area spans exactly these bounds, 
+    // eliminating implicit side padding.
+    final double minX = 0;
+    final double maxX = (data.chartData.length - 1).toDouble();
+
+    return LineChart(
+      LineChartData(
+        // --- X-AXIS BOUNDS FOR EDGE-TO-EDGE COVERAGE ---
+        minX: minX,
+        maxX: maxX,
+        minY: minVal * 0.95, 
+        maxY: maxVal * 1.05, 
+        
+        gridData: const FlGridData(show: false),
+        
+        titlesData: FlTitlesData(
+          show: true,
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          
+          // Reserved size must be zero to eliminate title padding
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(showTitles: false, reservedSize: 0.0),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(showTitles: false, reservedSize: 0.0),
+          ),
+        ),
+        
+        borderData: FlBorderData(show: false),
+        
+        lineBarsData: [
+          LineChartBarData(
+            spots: spots,
+            isCurved: true, 
+            color: trendColor,
+            barWidth: 3,
+            dotData: const FlDotData(show: false),
+            belowBarData: BarAreaData(
+              show: true,
+              color: trendColor.withOpacity(0.2), 
+              gradient: LinearGradient(
+                colors: [
+                  trendColor.withOpacity(0.3),
+                  trendColor.withOpacity(0.0),
                 ],
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                spacing: 9,
-                children: [
-                  // Percentage Text
-                  Text(
-                    percentageText,
-                    style: TextStyle(
-                      color: trendColor, // Green or Red
-                      fontSize: 24,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w700,
-                      height: 0.92,
-                    ),
-                  ),
-                  
-                  // Trend Arrow Icon (Placeholder)
-                  SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: Icon(
-                      isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                      color: trendColor,
-                      size: 28, // Make the arrow look prominent
-                    ),
-                  ),
-                  
-                  // Total Value Text
-                  Text(
-                    valueText,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary, // 0xFFF2F2F2
-                      fontSize: 24,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w800,
-                      height: 1.30,
-                    ),
-                  ),
-                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
             ),
           ),
         ],
+        
+        lineTouchData: const LineTouchData(enabled: false),
+        
+        // --- IMPORTANT: Set baseline padding to zero ---
+        // This is often the final piece needed to make it truly edge-to-edge.
+        extraLinesData: const ExtraLinesData(
+          horizontalLines: [],
+          verticalLines: [],
+        ),
       ),
     );
-  }
-}
-
-// --- Mock Chart Widget ---
-// This is a simple visual representation of the line chart using a custom painter
-class _ChartPlaceholder extends StatelessWidget {
-  final List<double> data;
-  final Color color;
-
-  const _ChartPlaceholder({required this.data, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: const Size(double.infinity, double.infinity),
-      painter: _SparklinePainter(data: data, color: color),
-    );
-  }
-}
-
-class _SparklinePainter extends CustomPainter {
-  final List<double> data;
-  final Color color;
-
-  _SparklinePainter({required this.data, required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (data.length < 2) return;
-
-    final Paint linePaint = Paint()
-      ..color = color.withOpacity(0.8)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0
-      ..strokeCap = StrokeCap.round;
-
-    final Paint fillPaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [color.withOpacity(0.3), color.withOpacity(0.0)],
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
-
-    final double maxVal = data.reduce((a, b) => a > b ? a : b);
-    final double minVal = data.reduce((a, b) => a < b ? a : b);
-    final double range = maxVal - minVal;
-    
-    // Create Path for the line
-    final Path linePath = Path();
-    // Create Path for the fill area
-    final Path fillPath = Path();
-
-    // Mapping logic
-    double xStep = size.width / (data.length - 1);
-
-    for (int i = 0; i < data.length; i++) {
-      double x = i * xStep;
-      // Map data value to vertical position (y-axis)
-      // We reserve some vertical padding (e.g., 20 pixels)
-      double y;
-      if (range == 0) {
-        y = size.height / 2;
-      } else {
-        y = size.height * (1 - (data[i] - minVal) / range);
-      }
-      
-      if (i == 0) {
-        linePath.moveTo(x, y);
-        fillPath.moveTo(x, y);
-      } else {
-        linePath.lineTo(x, y);
-        fillPath.lineTo(x, y);
-      }
-    }
-    
-    // Close the fill path at the bottom edge
-    fillPath.lineTo(size.width, size.height);
-    fillPath.lineTo(0, size.height);
-    fillPath.close();
-
-    canvas.drawPath(fillPath, fillPaint);
-    canvas.drawPath(linePath, linePaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _SparklinePainter oldDelegate) {
-    return oldDelegate.data != data || oldDelegate.color != color;
   }
 }

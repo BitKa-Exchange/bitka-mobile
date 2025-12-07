@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 // Import the reusable icon component
-import 'icon_card.dart'; // <<< NEW REQUIRED IMPORT (Assuming path)
+import '../icon_card.dart'; // <<< NEW REQUIRED IMPORT (Assuming path)
 
 // --- Nav Bar Models ---
 class NavItem {

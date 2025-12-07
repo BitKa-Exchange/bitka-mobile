@@ -1,4 +1,4 @@
-import 'package:bitka/shared/widgets/migrate/coin_card.dart';
+import 'package:bitka/shared/widgets/coin_card.dart';
 import 'package:flutter/material.dart' hide BoxShadow, BoxDecoration;
 import 'package:flutter_inset_shadow/flutter_inset_shadow.dart';
 

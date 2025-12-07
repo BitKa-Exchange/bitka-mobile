@@ -1,8 +1,8 @@
+import 'package:bitka/core/theme/app_colors.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
-import 'package:bitka/shared/widgets/migrate/detailed_dropdown.dart';
+import 'package:bitka/shared/widgets/detailed_button.dart';
+import 'package:bitka/shared/widgets/detailed_dropdown.dart';
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/option_card.dart'; // For the settings menu rows
 
 class AccountSettingScreen extends StatelessWidget {
   const AccountSettingScreen({super.key});
@@ -35,24 +35,40 @@ class AccountSettingScreen extends StatelessWidget {
           const SizedBox(height: 20),
 
 
-          OptionCard(
-            title: 'Personal Information',
-            leadingIcon: Icons.settings_rounded,
-            iconColor: AppColors.surfaceSecondaryContrast,
+          DetailedButton(
+            text: 'Personal Information',
+            iconLeft: const Icon(
+              Icons.settings_rounded,
+              color: AppColors.surfaceSecondaryContrast,
+            ),
+            iconRight: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: AppColors.textTertiary,
+              size: 16,
+            ),
             onTap: () {
               debugPrint('Personal Information tapped!');
             },
           ),
           const SizedBox(height: 8),
 
-          OptionCard(
-            title: 'Email Password',
-            leadingIcon: Icons.info_outline_rounded,
-            iconColor: AppColors.surfaceSecondaryContrast,
+
+          DetailedButton(
+            text: 'Email Password',
+            iconLeft: const Icon(
+              Icons.info_outline_rounded,
+              color: AppColors.surfaceSecondaryContrast,
+            ),
+            iconRight: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: AppColors.textTertiary,
+              size: 16,
+            ),
             onTap: () {
               debugPrint('Email Password tapped!');
             },
           ),
+          
           const SizedBox(height: 8),
 
           const SizedBox(height: 40),
