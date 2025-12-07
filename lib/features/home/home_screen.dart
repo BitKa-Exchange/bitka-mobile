@@ -1,8 +1,8 @@
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
-import 'package:bitka/shared/widgets/crypto_list_container.dart';
-import 'package:bitka/shared/widgets/crypto_list_item.dart';
-import 'package:bitka/shared/widgets/icon_card.dart';
-import 'package:bitka/shared/widgets/account_header_card.dart';
+import 'package:bitka/shared/widgets/migrate/coin_card.dart';
+import 'package:bitka/shared/widgets/migrate/coin_list.dart';
+import 'package:bitka/shared/widgets/migrate/icon_card.dart';
+import 'package:bitka/shared/widgets/migrate/detailed_dropdown.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -109,13 +109,9 @@ class _ProfileHeader extends StatelessWidget {
         // 2. User Info/Dropdown Header (Fixed Width to prevent crash)
         SizedBox( // Use a SizedBox to constrain the width
           width: 216, // Use the width specified in the original design
-          child: TransactionHeaderCard(
-            name: 'Nattan Niparnee',
-            accountId: '123-XXXX-1234',
-            onTap: () {
-              // Navigate to Account tab
-              AppShellScreen.navigateToIndex(context, 3);
-            },
+          child: DetailedDropDown(
+            title: 'Nattan Niparnee',
+            description: '123-XXXX-1234',
           ),
         ),
       ],
@@ -168,17 +164,13 @@ class _TransactionSection extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5), 
         child: IconCard(
-          icon: icon, 
-          label: label, 
+          icon: icon,
+          label: label,
+          backgroundColor: AppColors.backgroundGradient2,
+          iconColor: AppColors.surfaceBorderPrimary,
           onTap: () { 
             debugPrint('$label tapped!');
           },
-          // Setting background color to transparent/surface primary if it should match the container.
-          // Since IconCard defaults to AppColors.surfaceBorderPrimary (48353D) and the container uses 332129,
-          // we should adjust the IconCard's default or provide the correct color. 
-          // Sticking to the IconCard's internal look for reusability:
-          // BackgroundColor will be the default 48353D (AppColors.surfaceBorderPrimary)
-          // The container uses 20161A (AppColors.surfacePrimary)
         ),
       ),
     );
@@ -399,38 +391,89 @@ class _SparklinePainter extends CustomPainter {
 class _CoinListPlaceholder extends StatelessWidget {
   const _CoinListPlaceholder();
 
+  // Helper function to generate a list of CoinCard widgets
+  List<CoinCard> _getMockCoinCards() {
+    // Define the mock data directly as a list of arguments for CoinCard
+    final List<Map<String, dynamic>> mockData = [
+      {
+        'title': 'BNB',
+        'icon': Container(color: Colors.white),
+        'price': 388.92,
+        'quantity': 0.03,
+        'percent': 2.20,
+        'priceCurrency': 'USD',
+        'quantityCurrency': 'BNB',
+      },
+      {
+        'title': 'ETH',
+        'icon': Container(color: Colors.white),
+        'price': 2500.50,
+        'quantity': 0.5,
+        'percent': -1.50,
+        'priceCurrency': 'USD',
+        'quantityCurrency': 'ETH',
+      },
+      {
+        'title': 'XRP',
+        'icon': Container(color: Colors.white),
+        'price': 0.55,
+        'quantity': 1000.0,
+        'percent': 0.1,
+        'priceCurrency': 'USD',
+        'quantityCurrency': 'XRP',
+      },
+      {
+        'title': 'ADA',
+        'icon': Container(color: Colors.white),
+        'price': 0.8,
+        'quantity': 500.0,
+        'percent': 3.5,
+        'priceCurrency': 'USD',
+        'quantityCurrency': 'ADA',
+      },
+      {
+        'title': 'SOL',
+        'icon': Container(color: Colors.white),
+        'price': 150.00,
+        'quantity': 2.5,
+        'percent': 5.10,
+        'priceCurrency': 'USD',
+        'quantityCurrency': 'SOL',
+      },
+      {
+        'title': 'DOGE',
+        'icon': Container(color: Colors.white),
+        'price': 0.20,
+        'quantity': 10000.0,
+        'percent': -0.50,
+        'priceCurrency': 'USD',
+        'quantityCurrency': 'DOGE',
+      },
+    ];
+
+    // Map the mock data to CoinCard widgets
+    return mockData.map((data) {
+      return CoinCard(
+        title: data['title'] as String,
+        icon: data['icon'] as Widget,
+        price: data['price'] as double,
+        quantity: data['quantity'] as double,
+        percent: data['percent'] as double,
+        priceCurrency: data['priceCurrency'] as String,
+        quantityCurrency: data['quantityCurrency'] as String,
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // You need a way to get the mockCoins list. 
-    // Assuming mockCoins is accessible (e.g., if defined in crypto_list_item.dart):
-    final List<CoinData> mockCoins = [ 
-      // Re-defining sample data to ensure accessibility in this example
-      CoinData(
-        symbol: 'BNB',
-        name: 'BNB',
-        icon: Icons.currency_bitcoin_rounded,
-        iconColor: const Color(0xFFF0B90B),
-        price: 388.92,
-        change24h: 2.20,
-        balance: 0.03,
-      ),
-      CoinData(
-        symbol: 'ETH',
-        name: 'Ethereum',
-        icon: Icons.currency_bitcoin_rounded,
-        iconColor: const Color(0xFF627EEA),
-        price: 2500.50,
-        change24h: -1.50,
-        balance: 0.5,
-      ),
-      // Duplicate for scrolling demonstration
-      CoinData(symbol: 'XRP', name: 'Ripple', icon: Icons.currency_bitcoin_rounded, iconColor: Colors.blue, price: 0.55, change24h: 0.1, balance: 1000.0),
-      CoinData(symbol: 'ADA', name: 'Cardano', icon: Icons.currency_bitcoin_rounded, iconColor: Colors.deepPurple, price: 0.8, change24h: 3.5, balance: 500.0),
-    ];
+    // Generate the list of CoinCard widgets
+    final List<CoinCard> coinCards = _getMockCoinCards();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: CryptoListContainer(coins: mockCoins),
+      // Use the CoinList widget and pass the generated CoinCard children
+      child: CoinList(children: coinCards),
     );
   }
 }

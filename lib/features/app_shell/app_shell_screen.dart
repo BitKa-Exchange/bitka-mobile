@@ -4,7 +4,7 @@ import 'package:bitka/features/home/home_screen.dart';
 import 'package:bitka/features/wallet/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/bottom_navbar.dart';
+import '../../shared/widgets/migrate/bottom_navbar.dart';
 
 class AppShellScreen extends StatefulWidget {
 

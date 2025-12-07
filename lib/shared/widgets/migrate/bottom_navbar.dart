@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_colors.dart';
+import '../../../core/theme/app_colors.dart';
 // Import the reusable icon component
 import 'icon_card.dart'; // <<< NEW REQUIRED IMPORT (Assuming path)
 
@@ -59,17 +59,22 @@ class BottomNavBar extends StatelessWidget {
           final bool isSelected = item.index == selectedIndex;
           
           return Expanded(
-            // --- REPLACED _buildNavItem with IconCard ---
             child: Padding(
               // The IconCard will use the padding/margin logic defined here to fit the Row
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: IconCard(
-                icon: item.icon,
-                label: item.label,
-                onTap: () => onItemSelected(item.index),
-                isActive: isSelected, // Use isActive to trigger the pink/active style
+              child: isSelected ? IconCard(
+                  icon: item.icon,
+                  label: item.label,
+                  backgroundColor: AppColors.primaryPink,                  
+                  onTap: () => onItemSelected(item.index),
+                  // IconCard already handles the 69px height internally
+                ) :
+                  IconCard(
+                  icon: item.icon,
+                  label: item.label,
+                  onTap: () => onItemSelected(item.index),
                 // IconCard already handles the 69px height internally
-              ),
+                )
             ),
             // ---------------------------------------------
           );

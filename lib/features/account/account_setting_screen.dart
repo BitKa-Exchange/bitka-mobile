@@ -1,5 +1,5 @@
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
-import 'package:bitka/shared/widgets/account_header_card.dart';
+import 'package:bitka/shared/widgets/migrate/detailed_dropdown.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/option_card.dart'; // For the settings menu rows
@@ -28,13 +28,9 @@ class AccountSettingScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          TransactionHeaderCard(
-            name: 'Nattan Niparnee',
-            accountId: '123-XXXX-1234',
-            onTap: () {
-              // Navigate to Account tab
-              AppShellScreen.navigateToIndex(context, 3);
-            },
+          DetailedDropDown(
+            title: 'Nattan Niparnee',
+            description: '123-XXXX-1234',
           ),
           const SizedBox(height: 20),
 

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 
 import '../../shared/widgets/transfer_history_control.dart'; 
-import '../../shared/widgets/account_header_card.dart'; 
+import '../../shared/widgets/migrate/detailed_dropdown.dart'; 
 import '../../shared/widgets/filter_option_chip.dart'; 
 import '../../shared/widgets/transaction_list_item.dart'; 
-import '../../shared/widgets/button.dart';
+import '../../shared/widgets/migrate/button.dart';
 import '../app_shell/app_shell_screen.dart'; 
 
 
@@ -156,8 +156,9 @@ class _WalletScreenState extends State<WalletScreen> {
 
         // Next Button (Primary Action)
         Button(
-          text: 'Next',
+          label: 'Next',
           type: ButtonType.primary,
+          key: ValueKey("Hi"),
           // onPressed: null, // Placeholder for action
         ),
       ],
@@ -201,13 +202,9 @@ class _WalletScreenState extends State<WalletScreen> {
           const SizedBox(height: 16), 
 
           // 2. Nattan Niparnee Header Card
-          TransactionHeaderCard(
-            name: 'Nattan Niparnee',
-            accountId: '123-XXXX-1234',
-            onTap: () {
-              // Navigate to Account tab
-              AppShellScreen.navigateToIndex(context, 3);
-            },
+          DetailedDropDown(
+            title: 'Nattan Niparnee',
+            description: '123-XXXX-1234',
           ),
           const SizedBox(height: 16), 
 

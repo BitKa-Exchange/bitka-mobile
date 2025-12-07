@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/amount_input_field.dart';
-import '../../../shared/widgets/crypto_selection_input.dart';
+import 'package:bitka/shared/widgets/migrate/input_field.dart';
+import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/shared/widgets/crypto_selection_input.dart';
 
 class TransferFormContainer extends StatelessWidget {
   const TransferFormContainer({super.key});
@@ -51,10 +51,9 @@ class TransferFormContainer extends StatelessWidget {
             },
           ),
           
-          AmountInputField(
-            hintText: 'Amount',
+          InputField(
+            labelText: 'Amount',
             suffixLabel: 'ETH',
-            hasQRScan: false,
             controller: TextEditingController(),
           ),
           
@@ -73,10 +72,13 @@ class TransferFormContainer extends StatelessWidget {
             ),
           ),
           
-          AmountInputField(
-            hintText: 'Address',
-            suffixLabel: '', // Suffix is handled by hasQRScan
-            hasQRScan: true,
+          InputField(
+            labelText: 'Address',
+            suffixIcon: IconButton(
+              icon: Icon(Icons.qr_code_scanner_rounded, color: tertiaryTextColor,),
+              onPressed: () {
+                debugPrint("TODO: Implement QR scan");
+            },),
             controller: TextEditingController(),
           ),
         ],
