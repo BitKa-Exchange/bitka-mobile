@@ -36,34 +36,37 @@ class DetailedDropDown extends StatelessWidget {
     return SizedBox(
       height: height,
       width: width,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-        decoration: BoxDecoration(
-          borderRadius: radius,
-          boxShadow: [
-            BoxShadow(
-              color: primaryGlow
-            ),
-            BoxShadow(
-              color: primary,
-              blurRadius: 17.6,
-              spreadRadius: -8
-            )
-          ]
-        ),
-        child: Stack(
-          fit: .expand,
-          children: [
-            Positioned(top: 0, right: 0,child: Icon(Icons.keyboard_arrow_down, color: textColor,),),
-            Column(
-              crossAxisAlignment: .start,
-              mainAxisAlignment: .center,
-              children: [
-                Text(title, style: titleStyle),
-                Text(description, style: descriptionStyle),
-              ],
-            )
-          ],
+      child: ClipRRect(
+        borderRadius: radius,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: radius,
+            boxShadow: [
+              BoxShadow(
+                color: primaryGlow
+              ),
+              BoxShadow(
+                color: primary,
+                blurRadius: 17.6,
+                spreadRadius: -8
+              )
+            ]
+          ),
+          child: Stack(
+            fit: .expand,
+            children: [
+              Positioned(top: 0, right: 0,child: Icon(Icons.keyboard_arrow_down, color: textColor,),),
+              Column(
+                crossAxisAlignment: .start,
+                mainAxisAlignment: .center,
+                children: [
+                  Text(title, style: titleStyle),
+                  Text(description, style: descriptionStyle),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

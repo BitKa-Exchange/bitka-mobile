@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:bitka/core/theme/app_colors.dart';
 
 class DetailedButton extends StatelessWidget {
-  // Required fields
-  final String text; // Main text / Title
+  final String text;
   final VoidCallback? onTap;
 
-  // Visual/Styling fields (camelCase)
   final Color backgroundColor;
   final Color foregroundColor;
+  final Color foregroundSecondaryColor;
   final Color borderColor;
   
-  // Content fields (all optional and conditionally rendered - camelCase)
   final Widget? iconLeft;
   final Widget? iconRight;
   final String? subText;
@@ -23,9 +21,10 @@ class DetailedButton extends StatelessWidget {
   const DetailedButton({
     super.key,
     required this.text,
-    required this.backgroundColor,
-    required this.foregroundColor,
-    required this.borderColor,
+    this.backgroundColor = AppColors.backgroundCardDefault, 
+    this.foregroundColor = AppColors.textPrimary,
+    this.foregroundSecondaryColor = AppColors.textTertiary,
+    this.borderColor = AppColors.borderDefaultTertiary,
     this.onTap,
     this.iconLeft,
     this.iconRight,
@@ -34,18 +33,22 @@ class DetailedButton extends StatelessWidget {
     this.subRightText,
     this.detailText,
   });
+  
+  // Static final properties for consistency
+  static const double buttonBorderWidth = 2.0; // Use 2.0 width from the old input field
+  static const double buttonBorderRadius = 8.0; // Use 8.0 radius from the old input field
 
   @override
   Widget build(BuildContext context) {
-    // Determine button padding based on content (a simplified heuristic)
+    // Determine button padding: using the padding from the old CryptoSelectionInput for Min state
     final bool hasDetail = detailText != null;
     final EdgeInsets buttonPadding = hasDetail
-        ? const EdgeInsets.all(16) // Larger padding if detail text is present
-        : const EdgeInsets.symmetric(horizontal: 16, vertical: 14); // Standard padding
+        ? const EdgeInsets.all(16) // Larger padding for 'Full' detail view
+        : const EdgeInsets.symmetric(horizontal: 18, vertical: 10); // Matches old CryptoSelectionInput padding
 
-    // Determine border radius (defaulting to 16 if no borderColor is provided)
+    // Use the static radius (8.0) for the min/input look, or 16.0 for the full/detail look
     final BorderRadius buttonRadius = BorderRadius.circular(
-      hasDetail ? 16 : 8,
+      hasDetail ? 16 : buttonBorderRadius, 
     );
 
     // --- Top Section Widget (Handles text, subText, rightText, etc.) ---
@@ -55,32 +58,35 @@ class DetailedButton extends StatelessWidget {
         // LEFT CONTENT
         Row(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center, // Added for vertical alignment
           children: [
             if (iconLeft != null) ...[
               iconLeft!,
-              const SizedBox(width: 8),
+              const SizedBox(width: 12), // Adjusted spacing to match old input
             ],
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // MAIN TEXT
+                // MAIN TEXT (Crypto Code)
                 Text(
                   text,
                   style: TextStyle(
                     color: foregroundColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
+                    fontSize: 17, // Adjusted font size to match old input
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w800, // Adjusted font weight
                   ),
                 ),
-                // SUB TEXT
+                // SUB TEXT (Available Credit)
                 if (subText != null)
                   Text(
                     subText!,
                     style: TextStyle(
-                      color: foregroundColor,
+                      color: hasDetail ? foregroundColor : AppColors.textTertiary, // Use AppColors.textTertiary for subtext in the min/default view for aesthetic match
                       fontSize: 12,
-                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
               ],
@@ -91,36 +97,39 @@ class DetailedButton extends StatelessWidget {
         // RIGHT CONTENT
         Row(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center, // Added for vertical alignment
           children: [
             if (rightText != null)
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // RIGHT TEXT
+                  // RIGHT TEXT (Crypto Value)
                   Text(
                     rightText!,
                     style: TextStyle(
                       color: foregroundColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
+                      fontSize: 17, // Adjusted font size
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w800, // Adjusted font weight
                     ),
                   ),
-                  // SUB RIGHT TEXT
+                  // SUB RIGHT TEXT (Fiat Value)
                   if (subRightText != null)
                     Text(
                       subRightText!,
                       style: TextStyle(
-                        color: foregroundColor,
+                        color: hasDetail ? foregroundColor : AppColors.textTertiary, // Use AppColors.textTertiary for subtext in the min/default view
                         fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                 ],
               ),
-            // RIGHT ICON
+            // RIGHT ICON (Dropdown Arrow)
             if (iconRight != null) ...[
-              const SizedBox(width: 8),
+              const SizedBox(width: 10), // Adjusted spacing
               iconRight!,
             ],
           ],
@@ -140,7 +149,10 @@ class DetailedButton extends StatelessWidget {
           color: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: buttonRadius,
-            side: BorderSide(color: borderColor),
+            side: BorderSide(
+              color: borderColor,
+              width: buttonBorderWidth, // Using 2.0 width
+            ),
           ),
         ),
         child: Column(

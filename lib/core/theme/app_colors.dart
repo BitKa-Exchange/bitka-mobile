@@ -33,6 +33,8 @@ class AppColors {
   static const Color backgroundGradient1 = Color(0xFF120C0E); 
   static const Color backgroundGradient2 = Color(0xFF121212);
   static const Color backgroundCardDefault = Color(0xFF2C2C2C);
+
+  static const Color borderDefaultTertiary = Color(0xFF383838);
   
   // --- Effects ---
   static const Color shadowColor = Color(0x3F000000);

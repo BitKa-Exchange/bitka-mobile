@@ -1,4 +1,5 @@
-import 'package:bitka/shared/widgets/transfer_form_container.dart';
+import 'package:bitka/shared/widgets/migrate/detailed_button.dart';
+import 'package:bitka/shared/widgets/migrate/input_field.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 
@@ -145,25 +146,115 @@ class _WalletScreenState extends State<WalletScreen> {
 
   // --- Widget for displaying the Transfer Form ---
   Widget _buildTransferView() {
-    return const Column(
-      children: [
-        SizedBox(height: 16), // No filters are shown in Transfer view
-        
-        // Transfer Form Container
-        TransferFormContainer(),
+    return Column(
+        children: [
+          const SizedBox(height: 16),
 
-        SizedBox(height: 24), // Spacing before the main action button
+          // --- Transfer Form Container ---
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            clipBehavior: Clip.antiAlias,
+            decoration: ShapeDecoration(
+              color: AppColors.backgroundBrandHover, // Background-Brand-Hover
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // Using SizedBox for spacing
+              children: [
+                // --- Transferor Section Header ---
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Transferor',
+                    style: TextStyle(
+                      color: AppColors.textTertiary,
+                      fontSize: 16,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w800,
+                      height: 1.40,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16), // Spacing after header
+                
+                DetailedButton(
+  
+                  text: 'ETH',
+                  subText: 'Available Credit',
+                  rightText: '0.67 ETH',
+                  subRightText: '1,210 THB',
+                  iconLeft: const Icon(Icons.star_rounded, color: AppColors.primaryPink, size: 32),
+                  iconRight: const Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.textPrimary, size: 24),
+                  
+                  onTap: () {
+                    debugPrint('Select Crypto Tapped (via DetailedButton)');
+                  },
+                ),
+                const SizedBox(height: 16),
+                
+                // --- Amount Input Field ---
+                InputField(
+                  labelText: 'Amount',
+                  suffixIcon: const Text(
+                    "ETH",
+                    style: TextStyle(
+                      color: AppColors.textTertiary,
+                      fontSize: 16,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16), // Spacing
+                
+                // --- Receiver Section Header ---
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Receiver',
+                    style: TextStyle(
+                      color: AppColors.textTertiary,
+                      fontSize: 16,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w800,
+                      height: 1.40,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16), // Spacing after header
+                
+                // --- Address Input Field ---
+                InputField(
+                  labelText: 'Address',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.qr_code_scanner_rounded, color: AppColors.textTertiary,),
+                    onPressed: () {
+                      debugPrint("TODO: Implement QR scan");
+                  },),
+                ),
+              ],
+            ),
+          ),
+          // -------------------------------------------------------------------
 
-        // Next Button (Primary Action)
-        Button(
-          label: 'Next',
-          type: ButtonType.primary,
-          key: ValueKey("Hi"),
-          // onPressed: null, // Placeholder for action
-        ),
-      ],
-    );
-  }
+          const SizedBox(height: 24), // Spacing before the main action button
+
+          // Next Button (Primary Action)
+          const Button(
+            label: 'Next',
+            type: ButtonType.primary,
+            key: ValueKey('Transfer Next'),
+            // onPressed: null, // Placeholder for action
+          ),
+        ],
+      );
+    }
 
   @override
   Widget build(BuildContext context) {
