@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/features/account/profile_screen.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/detailed_dropdown.dart';
@@ -36,7 +37,7 @@ class AccountSettingScreen extends StatelessWidget {
 
 
           DetailedButton(
-            text: 'Personal Information',
+            text: 'Profile',
             iconLeft: const Icon(
               Icons.settings_rounded,
               color: AppColors.surfaceSecondaryContrast,
@@ -47,8 +48,12 @@ class AccountSettingScreen extends StatelessWidget {
               size: 16,
             ),
             onTap: () {
-              debugPrint('Personal Information tapped!');
-            },
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ProfileScreen(),
+                ),
+              );
+            }
           ),
           const SizedBox(height: 8),
 

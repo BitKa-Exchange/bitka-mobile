@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_inset_shadow: ^2.0.3
   fl_chart: ^1.1.1
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:

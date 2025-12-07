@@ -9,16 +9,20 @@ import 'package:bitka/shared/widgets/detailed_dropdown.dart';
 import 'package:bitka/shared/widgets/input_field.dart';
 import 'package:bitka/shared/widgets/page_selector/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 
-class WithdrawScreen extends StatefulWidget {
-  const WithdrawScreen({super.key});
+class DepositScreen extends StatefulWidget {
+  const DepositScreen({super.key});
 
   @override
-  State<WithdrawScreen> createState() => _WithdrawScreenState();
+  State<DepositScreen> createState() => _DepositScreenState();
 }
 
-class _WithdrawScreenState extends State<WithdrawScreen> {
+class _DepositScreenState extends State<DepositScreen> {
+  // tempo
+  static const String walletId = 'teryertyrb6456456564565gertg4565nj5867ehr68t6'; 
 
   static const _subtitleStyle = TextStyle(
     color: AppColors.textSecondary,
@@ -86,66 +90,30 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                           size: 32,
                         ),
                         text: 'ETH',
-                        subText: "Available Credit",
-                        rightText: '0.67 ETH',
-                        subRightText: '1,210 THB',
+                        subText: "Ethereum",
                         iconRight: const Icon(
                           Icons.keyboard_arrow_down_rounded,
                           color: AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      InputField(suffixLabel: "ETH", labelText: 'Amount'),
-                      SizedBox(
-                        height: 40,
-                        child: Stack(
-                          alignment: Alignment.centerLeft,
-                          children: [
-                            Row(
-                              children: [
-                                const SizedBox(width: 20),
-                                SizedBox(
-                                  height: 22,
-                                  child: FittedBox(
-                                    child: Text(
-                                      "Receiver",
-                                      style: _subtitleStyle,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Center(
-                              child: Transform.rotate(
-                                angle: 90 * pi / 180,
-                                child: const Icon(
-                                  size: 15,
-                                  Icons.send,
-                                  color: AppColors.textTertiary,
-                                ),
-                              ),
-                            ),
-                          ],
+
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: AppColors.backgroundCardDefault,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                          child: QrImageView(
+                            backgroundColor: AppColors.textPrimary,
+                            size: 200,
+                            data: walletId,
+                          ),
                         ),
                       ),
-                      InputField(
-                        labelText: 'Address',
-                        suffixIcon: const Icon(
-                          Icons.book,
-                          color: AppColors.textTertiary,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      DetailedButton(
-                        text: 'BITKUB',
-                        subText: 'KUB Chain',
-                        rightText: "0.00 ETH",
-                        subRightText: 'Withdrawal fee',
-                        iconRight: const Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
+
                       const SizedBox(height: 10),
                       Row(
                         children: [
@@ -153,47 +121,29 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                           SizedBox(
                             height: 22,
                             child: FittedBox(
-                              child: Text("Equivalent to", style: _subtitleStyle),
+                              child: Text("Address", style: _subtitleStyle),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 10),
-                      InputField(labelText: '112,231.31', suffixLabel: "THB"),
-                      const SizedBox(height: 7),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20.0,
-                              ),
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'By global market at 11:03:24 UTC+7',
-                                  style: _detailStyle,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      InputField(
+                        labelText: walletId,
+                        suffixIcon: IconButton(
+                            icon: Icon(Icons.copy),
+                            color: AppColors.textTertiary,
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(text: walletId));
+                            },
+                          )
                       ),
+                      const SizedBox(height: 7),
+
                     ],
                   ),
                 ),
                 const SizedBox(height: 20),
-                Button(
-                  label: "Next",
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const AppShellScreen(),
-                      ),
-                    );
-                  },
-                ),
+
               ],
             ),
           ),

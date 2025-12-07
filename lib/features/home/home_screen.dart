@@ -1,7 +1,8 @@
 import 'package:bitka/core/theme/app_colors.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
-import 'package:bitka/shared/widgets/coin_card.dart';
-import 'package:bitka/shared/widgets/coin_list.dart';
+import 'package:bitka/features/wallet/deposit_screen.dart';
+import 'package:bitka/features/wallet/transfer_screen.dart';
+import 'package:bitka/features/wallet/withdraw_screen.dart';
 import 'package:bitka/shared/widgets/coin_list_mock.dart';
 import 'package:bitka/shared/widgets/icon_card.dart';
 import 'package:bitka/shared/widgets/detailed_dropdown.dart';
@@ -145,22 +146,6 @@ class _WalletValueSection extends StatelessWidget {
 class _TransactionSection extends StatelessWidget {
   const _TransactionSection();
 
-  Widget _buildTransactionCardWrapper(String label, IconData icon) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5), 
-        child: IconCard(
-          icon: icon,
-          label: label,
-          backgroundColor: AppColors.backgroundGradient2,
-          iconColor: AppColors.surfaceBorderPrimary,
-          onTap: () { 
-            debugPrint('$label tapped!');
-          },
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,10 +173,78 @@ class _TransactionSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               // Use the new reusable _buildTransactionCardWrapper
-              _buildTransactionCardWrapper('Deposit', Icons.arrow_downward_rounded),
-              _buildTransactionCardWrapper('Withdraw', Icons.arrow_upward_rounded),
-              _buildTransactionCardWrapper('Transfer', Icons.send_rounded),
-              _buildTransactionCardWrapper('Buy', Icons.shopping_bag_outlined),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5), 
+                  child: IconCard(
+                    icon: Icons.arrow_downward_rounded,
+                    label: 'Deposit',
+                    backgroundColor: AppColors.backgroundGradient2,
+                    iconColor: AppColors.surfaceBorderPrimary,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const DepositScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5), 
+                  child: IconCard(
+                    icon: Icons.arrow_upward_rounded,
+                    label: 'Withdraw',
+                    backgroundColor: AppColors.backgroundGradient2,
+                    iconColor: AppColors.surfaceBorderPrimary,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const WithdrawScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5), 
+                  child: IconCard(
+                    icon: Icons.send_rounded,
+                    label: 'Transfer',
+                    backgroundColor: AppColors.backgroundGradient2,
+                    iconColor: AppColors.surfaceBorderPrimary,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const TransferScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5), 
+                  child: IconCard(
+                    icon: Icons.shopping_bag_outlined,
+                    label: 'Buy',
+                    backgroundColor: AppColors.backgroundGradient2,
+                    iconColor: AppColors.surfaceBorderPrimary,
+                    onTap: () { 
+                      debugPrint('TODO: implement Buy Screen');
+                    },
+                  ),
+                ),
+              ),
+              // _buildTransactionCardWrapper('Deposit', Icons.arrow_downward_rounded),
+              // _buildTransactionCardWrapper('Withdraw', Icons.arrow_upward_rounded),
+              // _buildTransactionCardWrapper('Transfer', Icons.send_rounded),
+              // _buildTransactionCardWrapper('Buy', Icons.shopping_bag_outlined),
             ],
           ),
         ],

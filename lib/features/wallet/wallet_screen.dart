@@ -1,3 +1,6 @@
+import 'package:bitka/features/wallet/deposit_screen.dart';
+import 'package:bitka/features/wallet/transfer_screen.dart';
+import 'package:bitka/features/wallet/withdraw_screen.dart';
 import 'package:bitka/shared/widgets/coin_list_mock.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/icon_card.dart';
@@ -111,7 +114,13 @@ Widget _buildWalletView() {
                       label: 'Deposit',
                       backgroundColor: AppColors.backgroundGradient2,
                       iconColor: AppColors.surfaceBorderPrimary,
-                      onTap: () => debugPrint('Deposit tapped!'),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const DepositScreen(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -123,7 +132,13 @@ Widget _buildWalletView() {
                       label: 'Withdraw',
                       backgroundColor: AppColors.backgroundGradient2,
                       iconColor: AppColors.surfaceBorderPrimary,
-                      onTap: () => debugPrint('Withdraw tapped!'),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const WithdrawScreen(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -135,7 +150,13 @@ Widget _buildWalletView() {
                       label: 'Transfer',
                       backgroundColor: AppColors.backgroundGradient2,
                       iconColor: AppColors.surfaceBorderPrimary,
-                      onTap: () => debugPrint('Transfer tapped!'),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const TransferScreen(),
+                          ),
+                        );
+                      }
                     ),
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/features/account/profile_setup_screen.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/detailed_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,16 @@ class AccountScreen extends StatelessWidget {
             borderColor: AppColors.backgroundWarning, 
             backgroundColor: AppColors.backgroundCardDefault, 
             onTap: () {
-              debugPrint('Complete profile tapped!');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ProfileSetupScreen(
+                    onComplete: () {
+                      debugPrint('Complete profile tapped!');
+                      // Add any additional logic here
+                    },
+                  ),
+                ),
+              );
             },
           ),
           const SizedBox(height: 20),
