@@ -1,9 +1,10 @@
-import 'package:bitka/shared/widgets/account_header_card.dart';
+import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/features/account/profile_setup_screen.dart';
+import 'package:bitka/shared/widgets/detailed_button.dart';
+import 'package:bitka/shared/widgets/detailed_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
-import '../../../core/theme/app_colors.dart';
 
-import '../../../shared/widgets/option_card.dart'; // For the settings menu rows
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -29,37 +30,56 @@ class AccountScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          // 1. User Info Header (Reusable CustomDropdownHeader)
-          TransactionHeaderCard(
-            name: 'Nattan Niparnee',
-            accountId: '123-XXXX-1234',
+
+          DetailedDropDown(
+            title: 'Nattan Niparnee',
+            description: '123-XXXX-1234',
+          ),
+          const SizedBox(height: 20),
+
+
+          DetailedButton(
+            text: 'Complete your profile',
+            subText: 'To allow the access to all features',
+            iconLeft: const Icon(
+              Icons.notifications_active_rounded,
+              color: AppColors.backgroundWarning, // Custom icon color
+            ),
+            iconRight: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: AppColors.textTertiary,
+              size: 16,
+            ),
+            borderColor: AppColors.backgroundWarning, 
+            backgroundColor: AppColors.backgroundCardDefault, 
             onTap: () {
-              // Navigate to Account tab
-              AppShellScreen.navigateToIndex(context, 3);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ProfileSetupScreen(
+                    onComplete: () {
+                      debugPrint('Complete profile tapped!');
+                      // Add any additional logic here
+                    },
+                  ),
+                ),
+              );
             },
           ),
           const SizedBox(height: 20),
 
-          // 2. Alert/Profile Completion Card (OptionCard with Yellow Styling)
-          OptionCard(
-            title: 'Complete your profile',
-            leadingIcon: Icons.notifications_active_rounded,
-            iconColor: AppColors.backgroundWarning, // Use a yellow/gold color for alert
-            backgroundColor: AppColors.backgroundCardDefault, // Assuming dark background
-            borderColor: AppColors.backgroundWarning, // Yellow border for emphasis
-            onTap: () {
-              debugPrint('Complete profile tapped!');
-            },
-          ),
-          const SizedBox(height: 20),
-
-          // 3. Settings Menu (Reusable OptionCard)
           
           // Account Setting
-          OptionCard(
-            title: 'Account Setting',
-            leadingIcon: Icons.settings_rounded,
-            iconColor: AppColors.surfaceSecondaryContrast,
+          DetailedButton(
+            text: 'Account Setting',
+            iconLeft: const Icon(
+              Icons.settings_rounded,
+              color: AppColors.surfaceSecondaryContrast,
+            ),
+            iconRight: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: AppColors.textTertiary,
+              size: 16,
+            ),
             onTap: () {
               debugPrint('Account Setting pressed!');
               AppShellScreen.navigateToIndex(context, 4);
@@ -68,10 +88,17 @@ class AccountScreen extends StatelessWidget {
           const SizedBox(height: 8),
 
           // Application Info
-          OptionCard(
-            title: 'Application Info',
-            leadingIcon: Icons.info_outline_rounded,
-            iconColor: AppColors.surfaceSecondaryContrast,
+          DetailedButton(
+            text: 'Application Info',
+            iconLeft: const Icon(
+              Icons.info_outline_rounded,
+              color: AppColors.surfaceSecondaryContrast,
+            ),
+            iconRight: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: AppColors.textTertiary,
+              size: 16,
+            ),
             onTap: () {
               debugPrint('Application Info tapped!');
             },
@@ -79,10 +106,17 @@ class AccountScreen extends StatelessWidget {
           const SizedBox(height: 8),
 
           // Customer Services
-          OptionCard(
-            title: 'Customer Services',
-            leadingIcon: Icons.phone_in_talk_rounded,
-            iconColor: AppColors.surfaceSecondaryContrast,
+          DetailedButton(
+            text: 'Customer Services',
+            iconLeft: const Icon(
+              Icons.phone_in_talk_rounded,
+              color: AppColors.surfaceSecondaryContrast,
+            ),
+            iconRight: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: AppColors.textTertiary,
+              size: 16,
+            ),
             onTap: () {
               debugPrint('Customer Services tapped!');
             },

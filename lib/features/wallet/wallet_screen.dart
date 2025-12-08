@@ -1,11 +1,17 @@
-import 'package:bitka/shared/widgets/transfer_form_container.dart';
+import 'package:bitka/features/wallet/deposit_screen.dart';
+import 'package:bitka/features/wallet/transfer_screen.dart';
+import 'package:bitka/features/wallet/withdraw_screen.dart';
+import 'package:bitka/shared/widgets/coin_list_mock.dart';
+import 'package:bitka/shared/widgets/detailed_button.dart';
+import 'package:bitka/shared/widgets/icon_card.dart';
+import 'package:bitka/shared/widgets/input_field.dart';
+import 'package:bitka/shared/widgets/performance_card.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 
-import '../../shared/widgets/transfer_history_control.dart'; 
-import '../../shared/widgets/account_header_card.dart'; 
-import '../../shared/widgets/filter_option_chip.dart'; 
-import '../../shared/widgets/transaction_list_item.dart'; 
+import '../../shared/widgets/page_selector/wallet_history_control.dart';
+import '../../shared/widgets/detailed_dropdown.dart';
+import '../../shared/widgets/custom_chip.dart';
 import '../../shared/widgets/button.dart';
 import '../app_shell/app_shell_screen.dart'; 
 
@@ -27,63 +33,190 @@ class _WalletScreenState extends State<WalletScreen> {
       'date': '16 November 2025',
       'items': [
         {
-          'type': TransactionType.receive,
-          'time': '10.08 PM',
-          'cryptoAmount': '1231.21 ETH',
-          'fiatAmount': '112,131.13 THB',
-          'source': 'Somchai Saichom',
+          'type': 'Recieve',
+          'time': '10.30 PM',
+          'cryptoAmount': '0.012 BTC',
+          'fiatAmount': '8,000 THB',
+          'source': 'Binance',
         },
         {
-          'type': TransactionType.receive,
-          'time': '10.08 PM',
-          'cryptoAmount': '1231.21 ETH',
-          'fiatAmount': '112,131.13 THB',
+          'type': 'Transferred',
+          'time': '10.30 PM',
+          'cryptoAmount': '0.005 BTC',
+          'fiatAmount': '4,000 THB',
+          'source': 'Self',
         },
-      ],
+      ]
     },
     {
       'date': '15 November 2025',
       'items': [
         {
-          'type': TransactionType.transferred,
-          'time': '10.08 PM',
-          'cryptoAmount': '1231.21 ETH',
-          'fiatAmount': '112,131.13 THB',
+          'type': 'Recieve',
+          'time': '10.30 PM',
+          'cryptoAmount': '0.5 ETH',
+          'fiatAmount': '45,000 THB',
+          'source': 'Coinbase',
         },
-        {
-          'type': TransactionType.transferred,
-          'time': '10.08 PM',
-          'cryptoAmount': '1231.21 ETH',
-          'fiatAmount': '112,131.13 THB',
-        },
-        {
-          'type': TransactionType.transferred,
-          'time': '10.08 PM',
-          'cryptoAmount': '1231.21 ETH',
-          'fiatAmount': '112,131.13 THB',
-        },
-      ],
+      ]
     },
   ];
+
+Widget _buildWalletView() {
+  final negativeTrend = [25.0, 20.0, 15.0, 8.0, 12.0, 10.0, 18.0, 14.0];
+  
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // B. Wallet Value Card
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: PerformanceCard(
+          data: PerformanceData(
+            percentage: -92.0,
+            value: 10293.01,
+            chartData: negativeTrend,
+          ),
+        ),
+      ),
+      
+      const SizedBox(height: 24),
+
+      // C. Transaction Buttons - Full Width Container
+      Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+        decoration: BoxDecoration(
+          color: AppColors.surfacePrimary,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Transaction',
+              style: TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 16,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: IconCard(
+                      icon: Icons.arrow_downward_rounded,
+                      label: 'Deposit',
+                      backgroundColor: AppColors.backgroundGradient2,
+                      iconColor: AppColors.surfaceBorderPrimary,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const DepositScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: IconCard(
+                      icon: Icons.arrow_upward_rounded,
+                      label: 'Withdraw',
+                      backgroundColor: AppColors.backgroundGradient2,
+                      iconColor: AppColors.surfaceBorderPrimary,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const WithdrawScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: IconCard(
+                      icon: Icons.send_rounded,
+                      label: 'Transfer',
+                      backgroundColor: AppColors.backgroundGradient2,
+                      iconColor: AppColors.surfaceBorderPrimary,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const TransferScreen(),
+                          ),
+                        );
+                      }
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: IconCard(
+                      icon: Icons.shopping_bag_outlined,
+                      label: 'Buy',
+                      backgroundColor: AppColors.backgroundGradient2,
+                      iconColor: AppColors.surfaceBorderPrimary,
+                      onTap: () => debugPrint('Buy tapped!'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      
+      const SizedBox(height: 24),
+      
+      // D. Coins List Header
+      const Padding(
+        padding: EdgeInsets.only(left: 32, right: 32, bottom: 20),
+        child: Text(
+          'Coins',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 24,
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+      
+      // E. Horizontal Coin List
+      const CoinListMock(),
+    ],
+  );
+}
 
   // --- Widget for displaying the Transaction History List ---
   Widget _buildHistoryView() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Filter Bar (from the second provided code block)
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           decoration: BoxDecoration(
-            color: AppColors.backgroundBrandHover, // Replaced explicit Color(0xFF1E1E1E) with AppColors.surfaceSecondary
+            color: AppColors.backgroundBrandHover,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              FilterOptionChip(label: 'This month', onTap: () {}),
+              CustomChip(label: 'This month', onPressed: () {}),
               const SizedBox(width: 4), 
-              FilterOptionChip(label: 'All network', onTap: () {}),
+              CustomChip(label: 'All network', onPressed: () {}),
             ],
           ),
         ),
@@ -94,9 +227,9 @@ class _WalletScreenState extends State<WalletScreen> {
           padding: const EdgeInsets.all(12),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
-            color: const Color(0xFF1E1E1E), // Using the explicit color from the design for this specific container
+            color: AppColors.backgroundBrandHover, // Using the explicit color from the design for this specific container
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
             ),
           ),
           child: Column(
@@ -122,12 +255,13 @@ class _WalletScreenState extends State<WalletScreen> {
                   ...dateGroup['items'].map<Widget>((item) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: TransactionListItem(
-                        type: item['type'],
-                        time: item['time'],
-                        cryptoAmount: item['cryptoAmount'],
-                        fiatAmount: item['fiatAmount'],
-                        source: item['source'],
+                      child: DetailedButton(
+                        text: item['type'],
+                        subText: item['time'],
+                        iconLeft: const Icon(Icons.star_rounded, color: AppColors.primaryPink, size: 32),
+                        rightText: item['cryptoAmount'],
+                        rightTextColor: item['type'] == 'Recieve' ? AppColors.utilityGreen : AppColors.utilityRed,
+                        subRightText: item['fiatAmount'],
                         onTap: () {},
                       ),
                     );
@@ -143,27 +277,6 @@ class _WalletScreenState extends State<WalletScreen> {
     );
   }
 
-  // --- Widget for displaying the Transfer Form ---
-  Widget _buildTransferView() {
-    return const Column(
-      children: [
-        SizedBox(height: 16), // No filters are shown in Transfer view
-        
-        // Transfer Form Container
-        TransferFormContainer(),
-
-        SizedBox(height: 24), // Spacing before the main action button
-
-        // Next Button (Primary Action)
-        Button(
-          text: 'Next',
-          type: ButtonType.primary,
-          // onPressed: null, // Placeholder for action
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final double bottomPadding = MediaQuery.of(context).padding.bottom;
@@ -174,7 +287,6 @@ class _WalletScreenState extends State<WalletScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 1. Transaction Title and Transfer/History Control (TOGGLE)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -189,7 +301,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   height: 1.40,
                 ),
               ),
-              TransferHistoryControl(
+              WalletHistoryControl(
                 onSelectionChanged: (selection) {
                   setState(() {
                     _currentTransactionView = selection;
@@ -201,19 +313,16 @@ class _WalletScreenState extends State<WalletScreen> {
           const SizedBox(height: 16), 
 
           // 2. Nattan Niparnee Header Card
-          TransactionHeaderCard(
-            name: 'Nattan Niparnee',
-            accountId: '123-XXXX-1234',
-            onTap: () {
-              // Navigate to Account tab
-              AppShellScreen.navigateToIndex(context, 3);
-            },
+          DetailedDropDown(
+            title: 'Nattan Niparnee',
+            description: '123-XXXX-1234',
           ),
           const SizedBox(height: 16), 
 
           // 3. Dynamic Content based on selected view
-          _currentTransactionView == SegmentedControlOption.transfer
-              ? _buildTransferView()
+          _currentTransactionView == SegmentedControlOption.wallet
+              // ? _buildWalletView()
+              ? _buildWalletView()
               : _buildHistoryView(),
         ],
       ),

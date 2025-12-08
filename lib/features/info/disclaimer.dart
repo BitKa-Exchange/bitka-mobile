@@ -68,7 +68,7 @@ class DisclaimerScreen extends StatelessWidget {
 
                 // --- Proceed Button ---
                 Button(
-                  text: 'Proceed',
+                  label: 'Proceed',
                   type: ButtonType.primary,
                   onPressed: () {
                     debugPrint('Proceeding from disclaimer...');

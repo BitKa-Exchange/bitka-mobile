@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_colors.dart';
+import '../../../core/theme/app_colors.dart';
 
-enum SegmentedControlOption { transfer, history }
+enum SegmentedControlOption { wallet, history }
 
-class TransferHistoryControl extends StatefulWidget {
+class WalletHistoryControl extends StatefulWidget {
   final ValueChanged<SegmentedControlOption> onSelectionChanged;
 
-  const TransferHistoryControl({
+  const WalletHistoryControl({
     super.key,
     required this.onSelectionChanged,
   });
 
   @override
-  State<TransferHistoryControl> createState() => _TransferHistoryControlState();
+  State<WalletHistoryControl> createState() => WalletHistoryControlState();
 }
 
-class _TransferHistoryControlState extends State<TransferHistoryControl> {
-  SegmentedControlOption _selectedOption = SegmentedControlOption.history; // History is highlighted in the design
+class WalletHistoryControlState extends State<WalletHistoryControl> {
+  SegmentedControlOption _selectedOption = SegmentedControlOption.history;
 
-  // Helper method to build each button segment
   Widget _buildSegment({
     required String label,
     required SegmentedControlOption option,
@@ -26,13 +25,11 @@ class _TransferHistoryControlState extends State<TransferHistoryControl> {
   }) {
     final bool isSelected = _selectedOption == option;
     
-    // Color definitions based on the provided assets
-    final Color selectedColor = AppColors.primaryPink; // F935A1
-    // The unselected color (424242) is used here as a general dark grey
-    final Color unselectedColor = AppColors.surfaceBorderPrimary; 
+    final Color selectedColor = AppColors.primaryPink;
+    final Color unselectedColor = AppColors.backgroundCardDefault; 
 
-    final Color selectedTextColor = AppColors.textOnBrand; // F2F2F2
-    final Color unselectedTextColor = AppColors.textTertiary; // B3B3B3
+    final Color selectedTextColor = AppColors.textOnBrand;
+    final Color unselectedTextColor = AppColors.textTertiary;
 
     return InkWell(
       onTap: () {
@@ -71,7 +68,6 @@ class _TransferHistoryControlState extends State<TransferHistoryControl> {
       padding: const EdgeInsets.all(4),
       clipBehavior: Clip.antiAlias,
       decoration: ShapeDecoration(
-        // Assuming 1E1E1E (Background-Brand-Hover) is the outer container background color
         color: const Color(0xFF1E1E1E), 
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -87,10 +83,9 @@ class _TransferHistoryControlState extends State<TransferHistoryControl> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Transfer Button
           _buildSegment(
-            label: 'Transfer',
-            option: SegmentedControlOption.transfer,
+            label: 'Wallet',
+            option: SegmentedControlOption.wallet,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(16),
               topRight: Radius.circular(4),
@@ -100,7 +95,6 @@ class _TransferHistoryControlState extends State<TransferHistoryControl> {
           ),
           const SizedBox(width: 4),
 
-          // History Button
           _buildSegment(
             label: 'History',
             option: SegmentedControlOption.history,

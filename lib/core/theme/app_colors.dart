@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+abstract final class AppColors {
   // --- Brand/Primary Colors ---
-  static const Color primaryPink = Color(0xFFF935A1); 
-  static const Color accentSecondary = Color(0xFFFF86B9); 
+  static const Color primaryPink = Color(0xFFF935A1);
+  static const Color accentSecondary = Color(0xFFFF86B9);
   
   // --- Utility Colors ---
   static const Color utilityRed = Color(0xFFFF3838);
@@ -33,6 +33,8 @@ class AppColors {
   static const Color backgroundGradient1 = Color(0xFF120C0E); 
   static const Color backgroundGradient2 = Color(0xFF121212);
   static const Color backgroundCardDefault = Color(0xFF2C2C2C);
+
+  static const Color borderDefaultTertiary = Color(0xFF383838);
   
   // --- Effects ---
   static const Color shadowColor = Color(0x3F000000);

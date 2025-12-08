@@ -6,19 +6,28 @@ class InputField extends StatelessWidget {
   final String labelText;
   final bool isPassword;
   final Widget? suffixIcon;
+  final String? suffixLabel;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
-  final TextEditingController? controller; // Added controller support
+  final TextEditingController? controller;
 
   const InputField({
     super.key,
     required this.labelText,
     this.isPassword = false,
     this.suffixIcon,
+    this.suffixLabel = '',
     this.validator,
     this.onSaved,
     this.controller,
   });
+
+  static const textColor = AppColors.textPrimary;
+  static const textSecondary = AppColors.textTertiary;
+  static const primary = AppColors.primaryPink;
+  static const secondary = AppColors.backgroundCardDefault;
+  static const border = AppColors.surfaceBorderPrimary;
+  static const red = AppColors.utilityRed;
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +42,15 @@ class InputField extends StatelessWidget {
           ),
         ],
       ),
-      // This is the critical widget that MUST be a descendant of the Form
+
       child: TextFormField(
         controller: controller,
         obscureText: isPassword,
-        style: const TextStyle(color: AppColors.textPrimary), 
+        style: const TextStyle(color: textColor), 
         validator: validator,
         onSaved: onSaved,
         decoration: InputDecoration(
-          fillColor: AppColors.surfacePrimary, 
+          fillColor: secondary, 
           filled: true,
           labelText: labelText,
           labelStyle: const TextStyle(
@@ -51,36 +60,47 @@ class InputField extends StatelessWidget {
             fontWeight: FontWeight.w400,
             height: 1.40,
           ),
-          suffixIcon: suffixIcon,
+          suffixIconConstraints: const BoxConstraints(minWidth: 50, maxWidth: 50),
+          suffixIcon: suffixIcon ?? Padding(
+                padding: const EdgeInsets.only(),//only(right: 16.0),
+                child: Text(
+                  suffixLabel ?? 'Label',
+                  style: TextStyle(
+                    color: textSecondary,
+                    fontSize: 16,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           
-          // Define the border style for normal, focus, and error states
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
               width: 1.50,
-              color: AppColors.surfaceBorderPrimary,
+              color: border,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
               width: 1.50,
-              color: AppColors.primaryPink,
+              color: primary,
             ),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
               width: 1.50,
-              color: Colors.red,
+              color: red,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
               width: 1.50,
-              color: Colors.redAccent,
+              color: red,
             ),
           ),
         ),

@@ -199,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // --- Register Button ---
                 Button(
-                  text: 'Register',
+                  label: 'Register',
                   type: ButtonType.primary,
                   onPressed: _handleRegistration,
                 ),

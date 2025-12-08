@@ -7,34 +7,20 @@ class IconCard extends StatelessWidget {
   final VoidCallback onTap;
   final Color backgroundColor;
   final Color iconColor;
-  final Color labelColor;
-  
-  // Optional: Add a property to show if the card is currently selected/active
-  final bool isActive; 
+  final Color textColor;
 
   const IconCard({
     super.key,
     required this.icon,
     required this.label,
     required this.onTap,
-    this.backgroundColor = AppColors.surfaceBorderPrimary, // 0xFF48343D
-    this.iconColor = AppColors.textPrimary, // 0xFFF5F5F5
-    this.labelColor = AppColors.textPrimary, // 0xFFF5F5F5
-    this.isActive = false, // Default is false
+    this.backgroundColor = AppColors.surfaceBorderPrimary,
+    this.iconColor = AppColors.textOnBrand,
+    this.textColor = AppColors.textOnBrand,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Determine colors based on active state
-    final Color activeBackgroundColor = AppColors.primaryPink; 
-    // If used in the Bottom Nav Bar, the active background color will be pink
-    final Color finalBackgroundColor = isActive ? activeBackgroundColor : backgroundColor;
-    const Color foregroundColor = AppColors.textOnBrand;
-    
-    // IconColor and LabelColor logic adjusted to ensure they are the foregroundColor (white/textOnBrand) when active
-    final Color finalIconColor = isActive ? foregroundColor : iconColor;
-    final Color finalLabelColor = isActive ? foregroundColor : labelColor;
-    
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -44,7 +30,7 @@ class IconCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10), 
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
-          color: finalBackgroundColor,
+          color: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -56,7 +42,7 @@ class IconCard extends StatelessWidget {
             // --- Icon ---
             Icon(
               icon, 
-              color: finalIconColor, 
+              color: iconColor, 
               size: 24
             ),
             
@@ -67,7 +53,7 @@ class IconCard extends StatelessWidget {
               label,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: finalLabelColor,
+                color: textColor,
                 fontSize: 14,
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.w600,
