@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:bitka/core/theme/app_colors.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
+import 'package:bitka/features/wallet/qr_scanner.dart';
 import 'package:bitka/shared/widgets/button.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/detailed_dropdown.dart';
 import 'package:bitka/shared/widgets/input_field.dart';
 import 'package:bitka/shared/widgets/page_selector/custom_appbar.dart';
 import 'package:flutter/material.dart';
-
 
 class TransferScreen extends StatefulWidget {
   const TransferScreen({super.key});
@@ -18,7 +18,7 @@ class TransferScreen extends StatefulWidget {
 }
 
 class _TransferScreenState extends State<TransferScreen> {
-
+  final TextEditingController _addressController = TextEditingController();
   static const _subtitleStyle = TextStyle(
     color: AppColors.textSecondary,
     fontSize: 16,
@@ -44,7 +44,10 @@ class _TransferScreenState extends State<TransferScreen> {
         gradient: LinearGradient(
           begin: Alignment(0.50, -0.00),
           end: Alignment(0.50, 1.00),
-          colors: [AppColors.backgroundGradient1, AppColors.backgroundGradient2],
+          colors: [
+            AppColors.backgroundGradient1,
+            AppColors.backgroundGradient2,
+          ],
         ),
       ),
       child: Scaffold(
@@ -93,7 +96,9 @@ class _TransferScreenState extends State<TransferScreen> {
                           color: AppColors.textPrimary,
                         ),
                         onTap: () {
-                          debugPrint('Select Crypto Tapped (via DetailedButton)');
+                          debugPrint(
+                            'Select Crypto Tapped (via DetailedButton)',
+                          );
                         },
                       ),
                       const SizedBox(height: 10),
@@ -143,13 +148,23 @@ class _TransferScreenState extends State<TransferScreen> {
                       ),
                       InputField(
                         labelText: 'Address',
+                        controller: _addressController,
                         suffixIcon: IconButton(
                           icon: const Icon(
                             Icons.qr_code_scanner_rounded,
                             color: AppColors.textTertiary,
                           ),
-                          onPressed: () {
-                            debugPrint("TODO: Implement QR scan");
+                          onPressed: () async {
+                            final result = await Navigator.of(context).push<String>(
+                              MaterialPageRoute(
+                                builder: (context) => const QrScanner(),
+                              ),
+                            );
+                            if (result != null && result.isNotEmpty) {
+                              setState(() {
+                                _addressController.text = result;
+                              });
+                            }
                           },
                         ),
                       ),
@@ -173,5 +188,11 @@ class _TransferScreenState extends State<TransferScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _addressController.dispose();
+    super.dispose();
   }
 }
