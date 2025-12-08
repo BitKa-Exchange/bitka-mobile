@@ -62,7 +62,7 @@ class InputField extends StatelessWidget {
           ),
           suffixIconConstraints: const BoxConstraints(minWidth: 50, maxWidth: 50),
           suffixIcon: suffixIcon ?? Padding(
-                padding: const EdgeInsets.only(right: 16.0),
+                padding: const EdgeInsets.only(),//only(right: 16.0),
                 child: Text(
                   suffixLabel ?? 'Label',
                   style: TextStyle(
