@@ -85,6 +85,12 @@ class _CoinListState extends State<CoinList> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // ... inside the build method
     return SizedBox(

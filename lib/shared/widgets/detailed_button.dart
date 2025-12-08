@@ -35,6 +35,23 @@ class DetailedButton extends StatelessWidget {
     this.subRightText,
     this.detailText,
   });
+
+  const DetailedButton.secondary({
+    super.key,
+    required this.text,
+    this.backgroundColor = AppColors.surfaceSecondary, 
+    this.foregroundColor = AppColors.textPrimary,
+    this.foregroundSecondaryColor = AppColors.textTertiary,
+    this.borderColor = Colors.transparent,
+    this.onTap,
+    this.iconLeft,
+    this.iconRight,
+    this.subText,
+    this.rightText,
+    this.rightTextColor,
+    this.subRightText,
+    this.detailText,
+  });
   
   // Static final properties for consistency
   static const double buttonBorderWidth = 2.0; // Use 2.0 width from the old input field
@@ -118,7 +135,7 @@ class DetailedButton extends StatelessWidget {
                     Text(
                       subRightText!,
                       style: TextStyle(
-                        color: foregroundColor, // Use AppColors.textTertiary for subtext in the min/default view
+                        color: rightTextColor ?? AppColors.textSecondary, // Use AppColors.textTertiary for subtext in the min/default view
                         fontSize: 12,
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w800,

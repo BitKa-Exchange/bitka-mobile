@@ -11,7 +11,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   );
 
   final String title;
-  const CustomAppBar({super.key, this.title = ''});
+  final bool showBackButton;
+  const CustomAppBar({super.key, this.title = '', this.showBackButton = true});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final double horizontalPadding = canPop ? 0.0 : 15.0;
 
     return AppBar(
+      automaticallyImplyLeading: showBackButton,
       title: Padding(
         padding: EdgeInsets.only(left: horizontalPadding),
         child: Text(title, style: _titleStyle),
