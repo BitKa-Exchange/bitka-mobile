@@ -1,9 +1,12 @@
 import 'package:bitka/core/theme/app_colors.dart';
 import 'package:bitka/features/account/profile_setup_screen.dart';
+import 'package:bitka/features/auth/login_screen.dart';
+import 'package:bitka/providers/auth_provider.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/detailed_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
+import 'package:provider/provider.dart';
 
 
 class AccountScreen extends StatelessWidget {
@@ -119,6 +122,33 @@ class AccountScreen extends StatelessWidget {
             ),
             onTap: () {
               debugPrint('Customer Services tapped!');
+            },
+          ),
+
+          const SizedBox(height: 8),
+          
+          // Logout Button
+          DetailedButton(
+            text: 'Logout',
+            iconLeft: const Icon(
+              Icons.logout_rounded,
+              color: AppColors.surfaceSecondaryContrast,
+            ),
+            iconRight: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: AppColors.textTertiary,
+              size: 16,
+            ),
+            onTap: () async {
+              final authProvider = Provider.of<AuthProvider>(context, listen: false);
+              await authProvider.logout();
+              
+              // if (mounted) {
+              //   Navigator.of(context).pushAndRemoveUntil(
+              //     MaterialPageRoute(builder: (context) => const LoginScreen()),
+              //     (route) => false,
+              //   );
+              // }
             },
           ),
           
