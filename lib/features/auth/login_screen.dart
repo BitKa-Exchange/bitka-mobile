@@ -1,6 +1,8 @@
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:bitka/features/auth/register_screen.dart';
+import 'package:bitka/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../shared/widgets/button.dart';
 import '../../shared/widgets/input_field.dart';
@@ -110,13 +112,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             debugPrint("TODO: make visable button work");
                           },
                         ),
-                        // suffixIcon: const Text("ETH",
-                        //                   style: TextStyle(
-                        //                   color: AppColors.textTertiary,
-                        //                   fontSize: 16,
-                        //                   fontFamily: 'Montserrat',
-                        //                   fontWeight: FontWeight.w900,
-                        //                 ),),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your password.';
@@ -166,25 +161,35 @@ class _LoginScreenState extends State<LoginScreen> {
                 Button(
                   label: 'Login',
                   type: ButtonType.primary,
-                  onPressed: () {
-                      Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const AppShellScreen(),
-                        ),
-                      );
-                    // Disable validation  for now
-                    // if (_formKey.currentState!.validate()) {
-                    //   _formKey.currentState!.save();
-                    //   debugPrint('Login successful: Username=$_username, Password=$_password');
-                    //   // Add navigation to Home Screen here
-                    //   Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (context) => const HomeScreen(),
-                    //     ),
-                    //   );
-                    // }
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      
+                      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                      final success = await authProvider.login(_username, _password);
+
+                      debugPrint(success ? 'yes' : 'no');
+                      
+                      if (success && mounted) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const AppShellScreen(),
+                          ),
+                        );
+                      } else if (mounted) {
+                        debugPrint('fail to login');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(authProvider.errorMessage ?? 'Login failed'),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(seconds: 3),
+                          ),
+                        );
+                      }
+                    }
                   },
                 ),
+
                 const SizedBox(height: 12),
                 Button(
                   label: 'Register',
@@ -211,6 +216,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                ),
+                Consumer<AuthProvider>(
+                  builder: (context, authProvider, child) {
+                    if (authProvider.isLoading) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
                 ),
                 const SizedBox(height: 30),
               ],

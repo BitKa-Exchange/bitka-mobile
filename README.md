@@ -2,7 +2,21 @@
 
 A bitkub app replica for educational purpose.
 
-## Getting Started
+## Install Dependencies
+```bash
+flutter pub get
+```
+
+## How to Run
+- ### Development
+```bash
+flutter run
+```
+- ### Production
+```bash
+flutter run --dart-define=ENVIRONMENT=.env.production --release
+```
+
 
 <!-- This project is a starting point for a Flutter application.
 

@@ -30,13 +30,6 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     super.dispose();
   }
 
-  static const _labelStyle = TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 16,
-    fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w900,
-    height: 1.40,
-  );
 
   @override
   Widget build(BuildContext context) {
