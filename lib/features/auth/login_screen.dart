@@ -22,6 +22,31 @@ class _LoginScreenState extends State<LoginScreen> {
   String _username = '';
   String _password = '';
 
+  void _handleLogin() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final success = await authProvider.login(_username, _password);
+      
+      if (success && mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const AppShellScreen(),
+          ),
+        );
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(authProvider.errorMessage ?? 'Login failed'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
   Widget _buildLogo() {
     return Column(
       children: [
@@ -161,33 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Button(
                   label: 'Login',
                   type: ButtonType.primary,
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      
-                      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                      final success = await authProvider.login(_username, _password);
-
-                      debugPrint(success ? 'yes' : 'no');
-                      
-                      if (success && mounted) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => const AppShellScreen(),
-                          ),
-                        );
-                      } else if (mounted) {
-                        debugPrint('fail to login');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(authProvider.errorMessage ?? 'Login failed'),
-                            backgroundColor: Colors.red,
-                            duration: const Duration(seconds: 3),
-                          ),
-                        );
-                      }
-                    }
-                  },
+                  onPressed: _handleLogin,
                 ),
 
                 const SizedBox(height: 12),

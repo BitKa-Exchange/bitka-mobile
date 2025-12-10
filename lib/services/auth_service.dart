@@ -3,14 +3,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthService {
-  // Load BASE_URL from environment
-  static String get baseUrl => dotenv.env['BASE_URL'] ?? 'http://127.0.0.1:8000';
+  static String get serviceUrl => '${dotenv.env['BASE_URL'] ?? 'http://127.0.0.1:8000'}/v1/auth';
 
   late final Dio _dio;
 
   AuthService() {
     _dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
+      baseUrl: serviceUrl,
       connectTimeout: const Duration(seconds: 5),
       receiveTimeout: const Duration(seconds: 3),
       headers: {
@@ -18,21 +17,24 @@ class AuthService {
       },
     ));
 
-    // Add interceptor for logging (optional)
     _dio.interceptors.add(LogInterceptor(
       requestBody: true,
       responseBody: true,
     ));
   }
 
+
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       final response = await _dio.post(
-        '/auth/login',
+        '/login',
         data: {
           'email': email,
           'password': password,
         },
+        options: Options(
+          validateStatus: (status) => status! < 500,
+        ),
       );
 
       if (response.statusCode == 200 && response.data['success'] == true) {
@@ -63,7 +65,7 @@ class AuthService {
       } else {
         return {
           'success': false,
-          'message': e.response?.data['message'] ?? 'Network error'
+          'message': e.response?.data['message'] ?? 'Network error: ${e.message}'
         };
       }
     } catch (e) {
@@ -78,7 +80,7 @@ class AuthService {
   ) async {
     try {
       final response = await _dio.post(
-        '/auth/register',
+        '/register',
         data: {
           'email': email,
           'password': password,
@@ -133,7 +135,7 @@ class AuthService {
     if (token != null) {
       try {
         await _dio.post(
-          '/auth/logout',
+          '/logout',
           options: Options(
             headers: {'Authorization': 'Bearer $token'},
           ),
@@ -161,7 +163,7 @@ class AuthService {
   Future<Dio> getAuthenticatedDio() async {
     final token = await getAccessToken();
     final dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
+      baseUrl: serviceUrl,
       headers: {
         'Content-Type': 'application/json',
         if (token != null) 'Authorization': 'Bearer $token',
