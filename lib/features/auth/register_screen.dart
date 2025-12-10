@@ -1,4 +1,7 @@
+import 'package:bitka/features/app_shell/app_shell_screen.dart';
+import 'package:bitka/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../shared/widgets/button.dart';
 import '../../shared/widgets/input_field.dart';
@@ -14,12 +17,12 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   // Global Key for form validation
   final _formKey = GlobalKey<FormState>();
+  final _passwordController = TextEditingController();
 
   // State variables for form fields and agreements
   String _username = '';
   String _email = '';
   String _password = '';
-  String _confirmPassword = '';
   bool _isTermsChecked = false;
   bool _isPrivacyChecked = false;
 
@@ -46,23 +49,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _handleRegistration() {
+  void _handleRegistration() async {
     // 1. Validate the form fields first
     if (!_formKey.currentState!.validate()) {
-      debugPrint('Form validation failed.');
       return;
     }
 
     // 2. Check agreement checkboxes
     if (!_isTermsChecked || !_isPrivacyChecked) {
-      debugPrint('Please agree to all terms and policies.');
-      // Optionally show a SnackBar error here
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please agree to all terms and policies.'),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
       return;
     }
 
     _formKey.currentState!.save(); // Save the data to state variables
-    debugPrint('Registration successful! User: $_username, Email: $_email');
-    // Proceed with API call or navigation
+    
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final success = await authProvider.register(
+      _email,
+      _password,
+      _username,
+    );
+
+    if (success && mounted) {
+      // Show success message and navigate to app shell
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Registration successful!'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      
+      // Replace entire navigator stack with AppShellScreen
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const AppShellScreen(),
+        ),
+        (route) => false,
+      );
+    } else if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(authProvider.errorMessage ?? 'Registration failed'),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   @override
@@ -139,6 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       InputField(
                         labelText: 'Password',
                         isPassword: true,
+                        controller: _passwordController,
                         suffixIcon: const Icon(Icons.remove_red_eye_sharp, color: AppColors.textTertiary),
                         validator: (value) {
                           if (value == null || value.length < 6) return 'Password must be at least 6 characters.';
@@ -154,11 +196,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         isPassword: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) return 'Please confirm your password.';
-                          if (value != _password) return 'Passwords do not match.';
+                          if (value != _passwordController.text) return 'Passwords do not match.';
                           return null;
                         },
                         // We don't necessarily need onSaved for this field, but keeping it for completeness
-                        onSaved: (value) => _confirmPassword = value ?? '',
                       ),
                     ],
                   ),
@@ -202,6 +243,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   label: 'Register',
                   type: ButtonType.primary,
                   onPressed: _handleRegistration,
+                ),
+                
+                // --- Loading Indicator ---
+                Consumer<AuthProvider>(
+                  builder: (context, authProvider, child) {
+                    if (authProvider.isLoading) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: CircularProgressIndicator(
+                          color: AppColors.textPrimary,
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
                 ),
                 
                 const SizedBox(height: 20),
