@@ -71,6 +71,61 @@ class AuthService {
     }
   }
 
+  Future<Map<String, dynamic>> register(
+    String email,
+    String password,
+    String name,
+  ) async {
+    try {
+      final response = await _dio.post(
+        '/auth/register',
+        data: {
+          'email': email,
+          'password': password,
+          'name': name,
+        },
+      );
+
+      if (response.statusCode == 201 && response.data['success'] == true) {
+        return {
+          'success': true,
+          'message': 'User registered successfully',
+          'userId': response.data['data']?['user_id'],
+        };
+      } else {
+        return {
+          'success': false,
+          'message': response.data['message'] ?? 'Registration failed'
+        };
+      }
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 409) {
+        return {
+          'success': false,
+          'message': 'Email already registered'
+        };
+      } else if (e.response?.statusCode == 422) {
+        return {
+          'success': false,
+          'message': 'Invalid input: password must be at least 8 characters'
+        };
+      } else if (e.type == DioExceptionType.connectionTimeout) {
+        return {'success': false, 'message': 'Connection timeout'};
+      } else if (e.type == DioExceptionType.receiveTimeout) {
+        return {'success': false, 'message': 'Server not responding'};
+      } else if (e.type == DioExceptionType.connectionError) {
+        return {'success': false, 'message': 'Cannot connect to server'};
+      } else {
+        return {
+          'success': false,
+          'message': e.response?.data['message'] ?? 'Network error'
+        };
+      }
+    } catch (e) {
+      return {'success': false, 'message': 'Unexpected error: $e'};
+    }
+  }
+
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('access_token');
