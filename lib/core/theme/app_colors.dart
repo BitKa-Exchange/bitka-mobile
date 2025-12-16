@@ -16,6 +16,7 @@ abstract final class AppColors {
   static const Color surfaceBorderPrimary = Color(0xFF48353D);
   static const Color surfaceSecondaryContrast = Color(0xFF997C89);
   static const Color surfacePrimaryContrast = Color(0xFFFED7E8); 
+  static const Color surfaceStroke = Color(0xFF48353D);
 
   // --- Text Colors ---
   static const Color textOnBrand = Color(0xFFF5F5F5); // White/Light Text (Text-Brand-On-Brand)

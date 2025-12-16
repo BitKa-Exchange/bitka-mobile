@@ -4,53 +4,201 @@ import 'package:flutter/material.dart';
 class CustomChip extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
-  
+  final IconData? icon;
+
   const CustomChip({
     super.key,
     required this.label,
     required this.onPressed,
+    this.icon,
   });
 
-  static const Color chipBackgroundColor = AppColors.backgroundCardDefault; 
-  static const Color chipForegroundColor = AppColors.textTertiary;         
+  static const Color chipBackgroundColor = AppColors.backgroundCardDefault;
+  static const Color chipForegroundColor = AppColors.textTertiary;
+
+  factory CustomChip.pinkTint({
+    Key? key,
+    required String label,
+    required VoidCallback onPressed,
+    bool selected = false,
+  }) {
+    return _PinkCustomChip(
+      key: key,
+      label: label,
+      onPressed: onPressed,
+      selected: selected,
+    );
+  }
+
+  factory CustomChip.pinkTintOutlined({
+    Key? key,
+    required String label,
+    required VoidCallback onPressed,
+    IconData? icon,
+  }) {
+    return _PinkOutlinedCustomChip(
+      key: key,
+      label: label,
+      onPressed: onPressed,
+      icon: icon,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    
-    final Widget labelWithIcon = Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center, 
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            color: chipForegroundColor,
-            fontSize: 14,
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w600,
+    return Material(
+      color: Colors.transparent,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: chipBackgroundColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: chipBackgroundColor,
+            width: 0,
           ),
         ),
-        const SizedBox(width: 4),
-        const Icon(
-          Icons.keyboard_arrow_down_rounded,
-          size: 18,
-          color: chipForegroundColor,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(8),
+          splashColor: Colors.grey.withOpacity(0.2),
+          highlightColor: Colors.grey.withOpacity(0.1),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: chipForegroundColor,
+                    fontSize: 16,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  icon ?? Icons.keyboard_arrow_down_rounded,
+                  size: 18,
+                  color: chipForegroundColor,
+                ),
+              ],
+            ),
+          ),
         ),
-      ],
+      ),
     );
+  }
+}
 
-    return ActionChip(
-      onPressed: onPressed,
-      backgroundColor: chipBackgroundColor,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+class _PinkOutlinedCustomChip extends CustomChip {
+  const _PinkOutlinedCustomChip({
+    super.key,
+    required super.label,
+    required super.onPressed,
+    super.icon,
+  });
+
+  static const Color chipBackgroundColor = AppColors.surfaceSecondary;
+  static const Color chipForegroundColor = AppColors.textPrimary;
+  static const Color chipOutlineColor = AppColors.surfaceStroke;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: chipBackgroundColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: chipOutlineColor,
+            width: 2,
+          ),
+        ),
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(8),
+          splashColor: AppColors.primaryPink.withOpacity(0.2),
+          highlightColor: AppColors.primaryPink.withOpacity(0.1),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(7, 4, 4, 4),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: chipForegroundColor,
+                    fontSize: 14,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  icon ?? Icons.keyboard_arrow_down_rounded,
+                  size: 18,
+                  color: chipForegroundColor,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      side: const BorderSide(
-        color: chipBackgroundColor, 
-        width: 1.0, // A minimal width is used
+    );
+  }
+}
+
+class _PinkCustomChip extends CustomChip {
+  final bool selected;
+
+  const _PinkCustomChip({
+    super.key,
+    required super.label,
+    required super.onPressed,
+    required this.selected,
+  });
+
+  static const Color chipBackgroundColor = AppColors.surfaceBorderPrimary;
+  static const Color chipForegroundColor = AppColors.surfaceSecondaryContrast;
+  static const Color selectedBackgroundColor = AppColors.primaryPink;
+  static const Color selectedForegroundColor = AppColors.textPrimary;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: selected ? selectedBackgroundColor : chipBackgroundColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: chipBackgroundColor,
+            width: 0,
+          ),
+        ),
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(8),
+          splashColor: AppColors.primaryPink.withOpacity(0.3),
+          highlightColor: AppColors.primaryPink.withOpacity(0.1),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+            child: Text(
+              label,
+              style: TextStyle(
+                color: selected ? selectedForegroundColor : chipForegroundColor,
+                fontSize: 14,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
       ),
-      label: labelWithIcon,
     );
   }
 }

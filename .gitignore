@@ -30,8 +30,16 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
 /coverage/
+
+# --- Custom rules for /build/ ---
+# 1. Ignore the entire 'build' directory and all its contents
+/build/
+# 2. But un-ignore the specific 'web' sub-directory.
+#    Note: This is generally necessary to allow step 3 to work.
+!/build/web
+# 3. And un-ignore all files and subdirectories *inside* 'web'.
+!/build/web/**
 
 # Symbolication related
 app.*.symbols
@@ -47,3 +55,5 @@ app.*.map.json
 # dot env files
 .env.development
 .env.production
+
+.repomix-output.xml
