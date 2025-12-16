@@ -1,3 +1,4 @@
+import 'package:bitka/app_config.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:bitka/providers/auth_provider.dart';
 import 'package:bitka/providers/ledger_provider.dart';
@@ -5,20 +6,16 @@ import 'package:bitka/providers/market_data_provider.dart';
 import 'package:bitka/providers/orders_provider.dart';
 import 'package:bitka/providers/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_colors.dart'; 
 import 'features/auth/login_screen.dart';
 
 
-const String environment = String.fromEnvironment(
-  'ENVIRONMENT', 
-  defaultValue: '.env.development'
-);
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: environment);
+  await AppConfig.load();
+
+  debugPrint(AppConfig.apiBaseUrl);
 
   runApp(
     MultiProvider(

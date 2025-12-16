@@ -1,9 +1,9 @@
+import 'package:bitka/app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class UserService {
-  static String get baseUrl => '${dotenv.env['BASE_URL'] ?? 'http://127.0.0.1:8000'}/v1/users';
+  static String get baseUrl => '${AppConfig.apiBaseUrl}/v1/users';
 
   late final Dio _dio;
 

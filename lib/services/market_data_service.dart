@@ -1,9 +1,9 @@
+import 'package:bitka/app_config.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MarketDataService {
   static String get serviceUrl =>
-      '${dotenv.env['BASE_URL'] ?? 'http://127.0.0.1:8000'}/v1/marketdata';
+      '${AppConfig.apiBaseUrl}/v1/marketdata';
 
   late final Dio _dio;
 
