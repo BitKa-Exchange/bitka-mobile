@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+pyjwt
+python-multipart
+email-validator
+pydantic[email]
