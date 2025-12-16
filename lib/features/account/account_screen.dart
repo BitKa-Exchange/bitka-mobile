@@ -9,8 +9,14 @@ import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:provider/provider.dart';
 
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -143,12 +149,12 @@ class AccountScreen extends StatelessWidget {
               final authProvider = Provider.of<AuthProvider>(context, listen: false);
               await authProvider.logout();
               
-              // if (mounted) {
-              //   Navigator.of(context).pushAndRemoveUntil(
-              //     MaterialPageRoute(builder: (context) => const LoginScreen()),
-              //     (route) => false,
-              //   );
-              // }
+              if (mounted) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
+              }
             },
           ),
           

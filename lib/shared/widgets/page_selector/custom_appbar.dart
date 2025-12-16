@@ -12,17 +12,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final String title;
   final bool showBackButton;
-  const CustomAppBar({super.key, this.title = '', this.showBackButton = true});
+  final List<Widget>? actions;
+  final EdgeInsetsGeometry? actionsPadding;
+  final EdgeInsetsGeometry titlePadding;
+  const CustomAppBar({
+    super.key,
+    this.title = '',
+    this.showBackButton = true,
+    this.actions,
+    this.actionsPadding,
+    this.titlePadding = const EdgeInsets.fromLTRB(8, 0, 0, 0)
+  });
 
   @override
   Widget build(BuildContext context) {
     final bool canPop = ModalRoute.of(context)?.canPop ?? false;
-    final double horizontalPadding = canPop ? 0.0 : 15.0;
 
     return AppBar(
       automaticallyImplyLeading: showBackButton,
       title: Padding(
-        padding: EdgeInsets.only(left: horizontalPadding),
+        padding: (canPop) ? .zero : titlePadding,
         child: Text(title, style: _titleStyle),
       ),
       shadowColor: Colors.transparent,
@@ -32,6 +41,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       surfaceTintColor: Colors.transparent,
       iconTheme: IconThemeData(color: AppColors.textPrimary),
       centerTitle: false,
+      actions: actions,
+      actionsPadding: actionsPadding,
     );
   }
 

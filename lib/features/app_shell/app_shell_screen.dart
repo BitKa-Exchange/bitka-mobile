@@ -1,6 +1,7 @@
 import 'package:bitka/features/account/account_screen.dart';
 import 'package:bitka/features/account/account_setting_screen.dart';
 import 'package:bitka/features/home/home_screen.dart';
+import 'package:bitka/features/trading/trading_main_screen.dart';
 import 'package:bitka/features/wallet/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
@@ -35,7 +36,7 @@ class AppShellScreenState extends State<AppShellScreen> {
   final List<Widget> _pages = const [
     HomeScreen(),
     WalletScreen(),
-    Center(child: Text('Trade Screen', style: TextStyle(color: AppColors.textPrimary))),
+    TradingMainScreen(),//Center(child: Text('Trade Screen', style: TextStyle(color: AppColors.textPrimary))),
     AccountScreen(), 
     AccountSettingScreen(),
   ];
