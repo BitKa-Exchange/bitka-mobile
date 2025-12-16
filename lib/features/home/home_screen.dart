@@ -1,5 +1,4 @@
 import 'package:bitka/core/theme/app_colors.dart';
-import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:bitka/features/wallet/deposit_screen.dart';
 import 'package:bitka/features/wallet/transfer_screen.dart';
 import 'package:bitka/features/wallet/withdraw_screen.dart';
