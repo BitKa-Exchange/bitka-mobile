@@ -13,7 +13,6 @@ class QrScanner extends StatefulWidget {
 class _QrScannerState extends State<QrScanner> {
   final MobileScannerController _controller = MobileScannerController();
   bool _isProcessing = false;
-  bool _hasPermission = true;
 
   void _onDetect(BarcodeCapture capture) async {
     if (_isProcessing) return;
@@ -41,70 +40,94 @@ class _QrScannerState extends State<QrScanner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: AppColors.background, foregroundColor: AppColors.textPrimary,),
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        foregroundColor: AppColors.textPrimary,
+      ),
       body: Stack(
         children: [
           MobileScanner(
             controller: _controller,
             fit: BoxFit.cover,
             onDetect: _onDetect,
-          ),
-          if (!_hasPermission)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(24.0),
-                child: Text(
-                  'Camera permission was denied. Please enable camera permission in settings to scan QR codes.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColors.textPrimary, fontSize: 16),
+            errorBuilder: (context, error) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.camera_alt_outlined,
+                        size: 64,
+                        color: AppColors.textSecondary,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        error.errorCode == MobileScannerErrorCode.permissionDenied
+                            ? 'Camera permission was denied. Please enable camera permission in settings to scan QR codes.'
+                            : 'An error occurred while accessing the camera.',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: AppColors.textPrimary,
+                          fontSize: 16,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          // overlay (only border) sized to 70% of the smaller screen dimension
+              );
+            },
+          ),
+          // Overlay (only border) sized to 70% of the smaller screen dimension
           Center(
             child: LayoutBuilder(
               builder: (context, constraints) {
-                final double size = math.min(constraints.maxWidth, constraints.maxHeight) * 0.7;
-                final borderSize = 4.0;
-                final cornerSize = 24.0;
+                final double size = math.min(
+                      constraints.maxWidth,
+                      constraints.maxHeight,
+                    ) *
+                    0.7;
+                const borderSize = 4.0;
+                const cornerSize = 24.0;
                 return SizedBox(
                   width: size,
                   height: size,
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: LayoutBuilder(
-                      builder: (context, inner) {
-                        return Stack(
-                          children: [
-                            // dim outside (within the overlay box)
-                            Positioned.fill(
-                              child: Container(color: Colors.black.withOpacity(0.3)),
+                    child: Stack(
+                      children: [
+                        // Dim outside (within the overlay box)
+                        Positioned.fill(
+                          child: Container(
+                            color: Colors.black.withOpacity(0.3),
+                          ),
+                        ),
+                        // Clear center
+                        Positioned(
+                          left: borderSize,
+                          right: borderSize,
+                          top: borderSize,
+                          bottom: borderSize,
+                          child: Container(color: Colors.transparent),
+                        ),
+                        // Border
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: CustomPaint(
+                            painter: _CornerPainter(
+                              color: Colors.white,
+                              strokeWidth: borderSize,
+                              cornerLength: cornerSize,
                             ),
-                            // clear center
-                            Positioned(
-                              left: borderSize,
-                              right: borderSize,
-                              top: borderSize,
-                              bottom: borderSize,
-                              child: Container(color: Colors.transparent),
-                            ),
-                            // border
-                            Positioned(
-                              left: 0,
-                              right: 0,
-                              top: 0,
-                              bottom: 0,
-                              child: CustomPaint(
-                                painter: _CornerPainter(
-                                  color: Colors.white,
-                                  strokeWidth: borderSize,
-                                  cornerLength: cornerSize,
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -136,11 +159,12 @@ class _CornerPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.square;
 
-    // draw 4 corners
-    // top-left
+    // Draw 4 corners
+    // Top-left
     canvas.drawLine(Offset(0, 0), Offset(cornerLength, 0), paint);
     canvas.drawLine(Offset(0, 0), Offset(0, cornerLength), paint);
-    // top-right
+    
+    // Top-right
     canvas.drawLine(
       Offset(size.width, 0),
       Offset(size.width - cornerLength, 0),
@@ -151,7 +175,8 @@ class _CornerPainter extends CustomPainter {
       Offset(size.width, cornerLength),
       paint,
     );
-    // bottom-left
+    
+    // Bottom-left
     canvas.drawLine(
       Offset(0, size.height),
       Offset(cornerLength, size.height),
@@ -162,7 +187,8 @@ class _CornerPainter extends CustomPainter {
       Offset(0, size.height - cornerLength),
       paint,
     );
-    // bottom-right
+    
+    // Bottom-right
     canvas.drawLine(
       Offset(size.width, size.height),
       Offset(size.width - cornerLength, size.height),

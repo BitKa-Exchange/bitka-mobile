@@ -1,7 +1,4 @@
 import 'package:bitka/core/theme/app_colors.dart';
-import 'package:bitka/features/app_shell/app_shell_screen.dart';
-import 'package:bitka/features/wallet/wallet_screen.dart';
-import 'package:bitka/shared/widgets/button.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/detailed_dropdown.dart';
 import 'package:bitka/shared/widgets/input_field.dart';
@@ -30,13 +27,13 @@ class _DepositScreenState extends State<DepositScreen> {
     height: 1.40,
   );
 
-  static const _detailStyle = TextStyle(
-    color: AppColors.textTertiary,
-    fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-    height: 1.40,
-  );
+  // static const _detailStyle = TextStyle(
+  //   color: AppColors.textTertiary,
+  //   fontFamily: 'Montserrat',
+  //   fontWeight: FontWeight.w500,
+  //   fontSize: 16,
+  //   height: 1.40,
+  // );
 
   @override
   Widget build(BuildContext context) {

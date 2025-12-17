@@ -4,7 +4,6 @@ import 'package:bitka/features/wallet/withdraw_screen.dart';
 import 'package:bitka/shared/widgets/coin_list_mock.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/icon_card.dart';
-import 'package:bitka/shared/widgets/input_field.dart';
 import 'package:bitka/shared/widgets/performance_card.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
@@ -12,8 +11,6 @@ import '../../core/theme/app_colors.dart';
 import '../../shared/widgets/page_selector/wallet_history_control.dart';
 import '../../shared/widgets/detailed_dropdown.dart';
 import '../../shared/widgets/custom_chip.dart';
-import '../../shared/widgets/button.dart';
-import '../app_shell/app_shell_screen.dart'; 
 
 
 class WalletScreen extends StatefulWidget {

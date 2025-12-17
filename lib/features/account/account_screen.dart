@@ -149,7 +149,7 @@ class _AccountScreenState extends State<AccountScreen> {
               final authProvider = Provider.of<AuthProvider>(context, listen: false);
               await authProvider.logout();
               
-              if (mounted) {
+              if (context.mounted) {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const LoginScreen()),
                   (route) => false,

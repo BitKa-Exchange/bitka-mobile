@@ -27,13 +27,13 @@ class _TransferScreenState extends State<TransferScreen> {
     height: 1.40,
   );
 
-  static const _detailStyle = TextStyle(
-    color: AppColors.textTertiary,
-    fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-    height: 1.40,
-  );
+  // static const _detailStyle = TextStyle(
+  //   color: AppColors.textTertiary,
+  //   fontFamily: 'Montserrat',
+  //   fontWeight: FontWeight.w500,
+  //   fontSize: 16,
+  //   height: 1.40,
+  // );
 
   @override
   Widget build(BuildContext context) {
