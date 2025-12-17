@@ -1,5 +1,6 @@
 import 'package:bitka/core/theme/app_colors.dart';
 import 'package:bitka/shared/widgets/custom_chip.dart';
+import 'package:bitka/shared/widgets/icon_chip.dart';
 import 'package:bitka/shared/widgets/page_selector/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,7 @@ class TradingTile extends StatelessWidget {
   final String? priceCurrency;
   final bool favorited;
   final bool isNew;
+  final String apiId;
   const TradingTile({
     super.key,
     this.icon = const Placeholder(color: AppColors.backgroundWarning),
@@ -25,7 +27,7 @@ class TradingTile extends StatelessWidget {
     this.price = 0,
     this.priceCurrency,
     this.favorited = false,
-    this.isNew = false,
+    this.isNew = false, required this.apiId,
   });
 
   static const defaultPriceCurrency = 'THB';
@@ -136,16 +138,16 @@ class _TradingMainScreenState extends State<TradingMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    late final List<TradingTile> finalList;
+    late List<TradingTile> finalList;
     switch (selectedChip) {
       case .trending:
-        finalList = widget.children;
+        finalList = List.of(widget.children);
       case .favorite:
-        finalList = widget.children
+        finalList = List.of(widget.children)
             .where((TradingTile element) => element.favorited)
             .toList();
       case .isNew:
-        finalList = widget.children
+        finalList = List.of(widget.children)
             .where((TradingTile element) => element.isNew)
             .toList();
     }
@@ -155,34 +157,17 @@ class _TradingMainScreenState extends State<TradingMainScreen> {
       case .valueDescending:
         finalList.sort((a, b) => a.price < b.price ? 1 : (a.price > b.price ? -1 : 0),);
       case .none:
+        break;
     }
 
+    debugPrint('a');
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Trade',
         actionsPadding: const EdgeInsets.only(right: 8.0),
         titlePadding: const EdgeInsets.only(left: 8.0),
         actions: [
-          AspectRatio(
-            aspectRatio: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceSecondary,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.surfaceBorderPrimary,
-                    width: 2,
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(1.0),
-                  child: Icon(Icons.access_time),
-                ),
-              ),
-            ),
-          ),
+          IconChip(Icons.access_time)
         ],
       ),
       body: Column(

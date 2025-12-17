@@ -161,17 +161,18 @@ class _PinkCustomChip extends CustomChip {
 
   @override
   Widget build(BuildContext context) {
+    const radius = 9.0;
     return Material(
       color: Colors.transparent,
       child: Ink(
         decoration: BoxDecoration(
           color: selected ? selectedBackgroundColor : chipBackgroundColor,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(radius),
           border: Border.all(color: chipBackgroundColor, width: 0),
         ),
         child: InkWell(
           onTap: onPressed,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(radius),
           splashColor: AppColors.primaryPink.withOpacity(0.3),
           highlightColor: AppColors.primaryPink.withOpacity(0.1),
           child: Container(
