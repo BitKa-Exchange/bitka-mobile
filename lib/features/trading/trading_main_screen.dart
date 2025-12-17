@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 enum _ChipSelected { trending, favorite, isNew }
 
+enum _SortSelected { none, valueAscending, valueDescending }
+
 class TradingTile extends StatelessWidget {
   final Widget icon;
   final String title;
@@ -129,12 +131,13 @@ class TradingMainScreen extends StatefulWidget {
 }
 
 class _TradingMainScreenState extends State<TradingMainScreen> {
-  var selected = _ChipSelected.trending;
+  var selectedChip = _ChipSelected.trending;
+  var sort = _SortSelected.none;
 
   @override
   Widget build(BuildContext context) {
-    late List<TradingTile> finalList;
-    switch (selected) {
+    late final List<TradingTile> finalList;
+    switch (selectedChip) {
       case .trending:
         finalList = widget.children;
       case .favorite:
@@ -145,6 +148,13 @@ class _TradingMainScreenState extends State<TradingMainScreen> {
         finalList = widget.children
             .where((TradingTile element) => element.isNew)
             .toList();
+    }
+    switch (sort) {
+      case .valueAscending:
+        finalList.sort((a, b) => a.price < b.price ? -1 : (a.price > b.price ? 1 : 0),);
+      case .valueDescending:
+        finalList.sort((a, b) => a.price < b.price ? 1 : (a.price > b.price ? -1 : 0),);
+      case .none:
     }
 
     return Scaffold(
@@ -187,20 +197,22 @@ class _TradingMainScreenState extends State<TradingMainScreen> {
                     children: [
                       CustomChip.pinkTint(
                         label: 'Trending',
-                        onPressed: () => setState(() => selected = .trending),
-                        selected: selected == .trending,
+                        onPressed: () =>
+                            setState(() => selectedChip = .trending),
+                        selected: selectedChip == .trending,
                       ),
                       const SizedBox(width: 8),
                       CustomChip.pinkTint(
                         label: 'Favorited',
-                        onPressed: () => setState(() => selected = .favorite),
-                        selected: selected == .favorite,
+                        onPressed: () =>
+                            setState(() => selectedChip = .favorite),
+                        selected: selectedChip == .favorite,
                       ),
                       const SizedBox(width: 8),
                       CustomChip.pinkTint(
                         label: 'New',
-                        onPressed: () => setState(() => selected = .isNew),
-                        selected: selected == .isNew,
+                        onPressed: () => setState(() => selectedChip = .isNew),
+                        selected: selectedChip == .isNew,
                       ),
                     ],
                   ),
@@ -218,8 +230,20 @@ class _TradingMainScreenState extends State<TradingMainScreen> {
                       ),
                       CustomChip.pinkTintOutlined(
                         label: 'Sort by value',
-                        onPressed: () {},
-                        icon: Icons.arrow_downward,
+                        onPressed: () {
+                          setState(
+                            () => sort = switch (sort) {
+                              (.valueAscending) => .valueDescending,
+                              (.valueDescending) => .none,
+                              (.none) => .valueAscending,
+                            },
+                          );
+                        },
+                        icon: switch (sort) {
+                          (.valueAscending) => Icons.arrow_downward,
+                          (.valueDescending) => Icons.arrow_upward,
+                          (.none) => null,
+                        },
                       ),
                     ],
                   ),

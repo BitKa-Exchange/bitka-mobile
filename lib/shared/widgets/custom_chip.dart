@@ -52,10 +52,7 @@ class CustomChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: chipBackgroundColor,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: chipBackgroundColor,
-            width: 0,
-          ),
+          border: Border.all(color: chipBackgroundColor, width: 0),
         ),
         child: InkWell(
           onTap: onPressed,
@@ -112,10 +109,7 @@ class _PinkOutlinedCustomChip extends CustomChip {
         decoration: BoxDecoration(
           color: chipBackgroundColor,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: chipOutlineColor,
-            width: 2,
-          ),
+          border: Border.all(color: chipOutlineColor, width: 2),
         ),
         child: InkWell(
           onTap: onPressed,
@@ -123,7 +117,7 @@ class _PinkOutlinedCustomChip extends CustomChip {
           splashColor: AppColors.primaryPink.withOpacity(0.2),
           highlightColor: AppColors.primaryPink.withOpacity(0.1),
           child: Container(
-            padding: const EdgeInsets.fromLTRB(7, 4, 4, 4),
+            padding: EdgeInsets.fromLTRB(7, 4, (icon == null ? 7 : 4), 4),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -137,12 +131,10 @@ class _PinkOutlinedCustomChip extends CustomChip {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(width: 4),
-                Icon(
-                  icon ?? Icons.keyboard_arrow_down_rounded,
-                  size: 18,
-                  color: chipForegroundColor,
-                ),
+                if (icon != null) ...[
+                  const SizedBox(width: 4),
+                  Icon(icon, size: 18, color: chipForegroundColor),
+                ],
               ],
             ),
           ),
@@ -175,10 +167,7 @@ class _PinkCustomChip extends CustomChip {
         decoration: BoxDecoration(
           color: selected ? selectedBackgroundColor : chipBackgroundColor,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: chipBackgroundColor,
-            width: 0,
-          ),
+          border: Border.all(color: chipBackgroundColor, width: 0),
         ),
         child: InkWell(
           onTap: onPressed,

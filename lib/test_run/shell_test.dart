@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:bitka/core/theme/app_colors.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:bitka/features/auth/login_screen.dart';
@@ -54,6 +55,7 @@ class BitkaApp extends StatelessWidget {
             title: index.toString(),
             isNew: index%2==0,
             favorited: index%2!=0,
+            price: Random(index).nextDouble()*1000,
           );
         }),
       ) // const AuthChecker(), 
