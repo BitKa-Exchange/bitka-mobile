@@ -1,13 +1,10 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  static const _titleStyle = TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 32,
+  static final _titleStyle = AppTextStyles.appBarTitle.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w800,
-    height: 1.40,
   );
 
   final String title;
@@ -34,6 +31,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: (canPop) ? .zero : titlePadding,
         child: Text(title, style: _titleStyle),
       ),
+      titleSpacing: (canPop) ? 0 : AppBarTheme.of(context).titleSpacing ?? NavigationToolbar.kMiddleSpacing,
       shadowColor: Colors.transparent,
       animateColor: false,
       backgroundColor: Colors.transparent,

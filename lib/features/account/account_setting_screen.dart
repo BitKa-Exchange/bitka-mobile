@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:bitka/features/account/profile_screen.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/detailed_dropdown.dart';
@@ -17,13 +18,10 @@ class AccountSettingScreen extends StatelessWidget {
           const SizedBox(height: 30),
 
 
-          const Text(
+          Text(
             'Account Setting',
-            style: TextStyle(
-              color: AppColors.textPrimary,
-              fontSize: 34,
+            style: AppTextStyles.displayLarge.copyWith(
               fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 20),

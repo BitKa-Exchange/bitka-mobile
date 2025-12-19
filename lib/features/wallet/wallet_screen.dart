@@ -7,6 +7,7 @@ import 'package:bitka/shared/widgets/icon_card.dart';
 import 'package:bitka/shared/widgets/performance_card.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 
 import '../../shared/widgets/page_selector/wallet_history_control.dart';
 import '../../shared/widgets/detailed_dropdown.dart';
@@ -90,13 +91,10 @@ Widget _buildWalletView() {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Transaction',
-              style: TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 16,
+              style: AppTextStyles.bodyMediumBold.copyWith(
                 fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w800,
               ),
             ),
             const SizedBox(height: 10),
@@ -178,15 +176,12 @@ Widget _buildWalletView() {
       const SizedBox(height: 24),
       
       // D. Coins List Header
-      const Padding(
-        padding: EdgeInsets.only(left: 32, right: 32, bottom: 20),
+      Padding(
+        padding: const EdgeInsets.only(left: 32, right: 32, bottom: 20),
         child: Text(
           'Coins',
-          style: TextStyle(
-            color: AppColors.textPrimary,
-            fontSize: 24,
+          style: AppTextStyles.titleLarge.copyWith(
             fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w800,
           ),
         ),
       ),
@@ -240,12 +235,8 @@ Widget _buildWalletView() {
                     padding: const EdgeInsets.only(left: 4.0, right: 4.0, bottom: 6.0),
                     child: Text(
                       dateGroup['date'],
-                      style: const TextStyle(
-                        color: AppColors.textPrimary, 
-                        fontSize: 16,
+                      style: AppTextStyles.bodyMediumSemiBold.copyWith(
                         fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w600,
-                        height: 1.40,
                       ),
                     ),
                   ),
@@ -288,13 +279,11 @@ Widget _buildWalletView() {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'Transaction',
-                style: TextStyle(
-                  color: AppColors.textPrimary, 
-                  fontSize: 32,
+                style: AppTextStyles.displayLarge.copyWith(
                   fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w800,
+                  fontSize: 32,
                   height: 1.40,
                 ),
               ),

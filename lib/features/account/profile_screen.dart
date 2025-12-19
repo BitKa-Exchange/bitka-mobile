@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:bitka/shared/widgets/button.dart';
 import 'package:bitka/shared/widgets/input_field.dart';
 import 'package:bitka/shared/widgets/page_selector/custom_appbar.dart';
@@ -113,15 +114,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 InputField(
                   labelText: '',
                   controller: _phoneController,
-                  suffixIcon: const Padding(
-                    padding: EdgeInsets.only(right: 16.0),
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
                     child: Text(
                       '+66',
-                      style: TextStyle(
-                        color: AppColors.textTertiary,
-                        fontSize: 16,
+                      style: AppTextStyles.bodyMediumBold.copyWith(
                         fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w800,
+                        color: AppColors.textTertiary,
                       ),
                     ),
                   ),
@@ -179,12 +178,8 @@ class _FieldLabel extends StatelessWidget {
 
   const _FieldLabel({required this.label});
 
-  static const _labelStyle = TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 16,
+  static final _labelStyle = AppTextStyles.labelLarge.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w900,
-    height: 1.40,
   );
 
   @override

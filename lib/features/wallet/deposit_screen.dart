@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/detailed_dropdown.dart';
 import 'package:bitka/shared/widgets/input_field.dart';
@@ -19,21 +20,9 @@ class _DepositScreenState extends State<DepositScreen> {
   // tempo
   static const String walletId = 'teryertyrb6456456564565gertg4565nj5867ehr68t6'; 
 
-  static const _subtitleStyle = TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 16,
+  static final _subtitleStyle = AppTextStyles.labelLarge.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w900,
-    height: 1.40,
   );
-
-  // static const _detailStyle = TextStyle(
-  //   color: AppColors.textTertiary,
-  //   fontFamily: 'Montserrat',
-  //   fontWeight: FontWeight.w500,
-  //   fontSize: 16,
-  //   height: 1.40,
-  // );
 
   @override
   Widget build(BuildContext context) {

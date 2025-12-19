@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class DetailedDropDown extends StatelessWidget {
@@ -15,20 +16,14 @@ class DetailedDropDown extends StatelessWidget {
 
   static const radius = BorderRadius.all(.circular(12.5));
 
-  static final titleStyle = TextStyle(
-    color: textColor, // This applies the color defined in textStyle
-    fontSize: 17,
+  static final titleStyle = AppTextStyles.bodyLargeSemiBold.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w700,
-    height: 1.40,
+    color: textColor,
   );
 
-  static final descriptionStyle = TextStyle(
-    color: textColor, // This applies the color defined in textStyle
-    fontSize: 12,
+  static final descriptionStyle = AppTextStyles.captionSmallBold.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w800,
-    height: 1.40,
+    color: textColor,
   );
 
   @override

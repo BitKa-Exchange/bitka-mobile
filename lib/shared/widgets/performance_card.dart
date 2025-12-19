@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 
 // --- 1. Data Model for the Card (Unchanged) ---
 class PerformanceData {
@@ -75,11 +76,9 @@ class PerformanceCard extends StatelessWidget {
       children: [
         Text(
           percentageText,
-          style: TextStyle(
-            color: trendColor,
-            fontSize: 20,
+          style: AppTextStyles.titleMedium.copyWith(
             fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w800,
+            color: trendColor,
           ),
         ),
         const SizedBox(width: 8),
@@ -90,11 +89,8 @@ class PerformanceCard extends StatelessWidget {
         ),
         Text(
           valueText,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
-            fontSize: 20,
+          style: AppTextStyles.titleMedium.copyWith(
             fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w800,
           ),
         ),
       ],

@@ -51,7 +51,6 @@ class CoinCard extends StatelessWidget {
     final titleStyle = TextStyle(
       color: textPrimary, // Using color variable
       fontSize: upperFontSize,
-      fontFamily: 'Montserrat',
       fontWeight: FontWeight.w800,
       height: 1,
     );
@@ -59,7 +58,6 @@ class CoinCard extends StatelessWidget {
     final subtitleStyle = TextStyle(
       color: textSecondary, // Using color variable
       fontSize: lowerFontSize,
-      fontFamily: 'Montserrat',
       fontWeight: FontWeight.w600,
       height: 1,
     );
@@ -67,7 +65,6 @@ class CoinCard extends StatelessWidget {
     final percentStyle = TextStyle(
       color: percent > 0 ? (bullish) : (percent < 0 ? bearish : neutral),
       fontSize: lowerFontSize,
-      fontFamily: 'Montserrat',
       fontWeight: FontWeight.w600,
       height: 1,
     );

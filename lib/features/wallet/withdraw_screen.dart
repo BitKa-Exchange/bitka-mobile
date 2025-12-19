@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:bitka/shared/widgets/button.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
@@ -19,20 +20,12 @@ class WithdrawScreen extends StatefulWidget {
 
 class _WithdrawScreenState extends State<WithdrawScreen> {
 
-  static const _subtitleStyle = TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 16,
+  static final _subtitleStyle = AppTextStyles.labelLarge.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w900,
-    height: 1.40,
   );
 
-  static const _detailStyle = TextStyle(
-    color: AppColors.textTertiary,
+  static final _detailStyle = AppTextStyles.bodyMediumMedium.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-    height: 1.40,
   );
 
   @override

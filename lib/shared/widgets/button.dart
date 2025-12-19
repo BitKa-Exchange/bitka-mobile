@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 enum ButtonType { primary, secondary }
@@ -32,12 +33,9 @@ class _ButtonState extends State<Button> {
 
   static const borderWidth = 1.5;
   static const radius = 8.0;
-  static const textStyle = TextStyle(
-    color: textColor, // This applies the color defined in textStyle
-    fontSize: 16,
+  static final textStyle = AppTextStyles.bodyMediumBold.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w800,
-    height: 1.40,
+    color: textColor,
   );
 
   static final primaryGlow = Color.alphaBlend(

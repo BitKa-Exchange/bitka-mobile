@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_text_styles.dart';
 
 enum SegmentedControlOption { wallet, history }
 
@@ -50,12 +51,9 @@ class WalletHistoryControlState extends State<WalletHistoryControl> {
         ),
         child: Text(
           label,
-          style: TextStyle(
-            color: isSelected ? selectedTextColor : unselectedTextColor,
-            fontSize: 16,
+          style: AppTextStyles.bodyMediumBold.copyWith(
             fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w800,
-            height: 1.40,
+            color: isSelected ? selectedTextColor : unselectedTextColor,
           ),
         ),
       ),

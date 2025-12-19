@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:bitka/features/wallet/qr_scanner.dart';
 import 'package:bitka/shared/widgets/button.dart';
@@ -19,21 +20,9 @@ class TransferScreen extends StatefulWidget {
 
 class _TransferScreenState extends State<TransferScreen> {
   final TextEditingController _addressController = TextEditingController();
-  static const _subtitleStyle = TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 16,
+  static final _subtitleStyle = AppTextStyles.labelLarge.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w900,
-    height: 1.40,
   );
-
-  // static const _detailStyle = TextStyle(
-  //   color: AppColors.textTertiary,
-  //   fontFamily: 'Montserrat',
-  //   fontWeight: FontWeight.w500,
-  //   fontSize: 16,
-  //   height: 1.40,
-  // );
 
   @override
   Widget build(BuildContext context) {
@@ -104,13 +93,11 @@ class _TransferScreenState extends State<TransferScreen> {
                       const SizedBox(height: 10),
                       InputField(
                         labelText: 'Amount',
-                        suffixIcon: const Text(
+                        suffixIcon: Text(
                           "ETH",
-                          style: TextStyle(
-                            color: AppColors.textTertiary,
-                            fontSize: 16,
+                          style: AppTextStyles.labelLarge.copyWith(
                             fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w900,
+                            color: AppColors.textTertiary,
                           ),
                         ),
                       ),

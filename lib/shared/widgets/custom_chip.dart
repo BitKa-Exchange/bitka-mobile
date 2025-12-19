@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomChip extends StatelessWidget {
@@ -44,6 +45,22 @@ class CustomChip extends StatelessWidget {
     );
   }
 
+  // Add this factory constructor to the CustomChip class
+  // Update the factory constructor
+  factory CustomChip.surfacePrimary({
+    Key? key,
+    required String label,
+    required VoidCallback onPressed,
+    IconData? icon,
+  }) {
+    return _SurfacePrimaryCustomChip(
+      key: key,
+      label: label,
+      onPressed: onPressed,
+      icon: icon,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -67,11 +84,9 @@ class CustomChip extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
-                    color: chipForegroundColor,
-                    fontSize: 16,
+                  style: AppTextStyles.bodyMediumBold.copyWith(
                     fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w800,
+                    color: chipForegroundColor,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -124,11 +139,9 @@ class _PinkOutlinedCustomChip extends CustomChip {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
-                    color: chipForegroundColor,
-                    fontSize: 14,
+                  style: AppTextStyles.bodySmallSemiBold.copyWith(
                     fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w600,
+                    color: chipForegroundColor,
                   ),
                 ),
                 if (icon != null) ...[
@@ -179,12 +192,63 @@ class _PinkCustomChip extends CustomChip {
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
             child: Text(
               label,
-              style: TextStyle(
-                color: selected ? selectedForegroundColor : chipForegroundColor,
-                fontSize: 14,
+              style: AppTextStyles.bodySmallSemiBold.copyWith(
                 fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w600,
+                color: selected ? selectedForegroundColor : chipForegroundColor,
               ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SurfacePrimaryCustomChip extends CustomChip {
+  const _SurfacePrimaryCustomChip({
+    super.key,
+    required super.label,
+    required super.onPressed,
+    super.icon,
+  });
+
+  static const Color chipBackgroundColor = AppColors.surfacePrimary;
+  static const Color chipForegroundColor = AppColors.textPrimary;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: chipBackgroundColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(8),
+          splashColor: Colors.grey.withOpacity(0.2),
+          highlightColor: Colors.grey.withOpacity(0.1),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(18, 10, icon == null ? 18 : 12, 10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  label,
+                  style: AppTextStyles.bodyLargeSemiBold.copyWith(
+                    fontFamily: 'Montserrat',
+                    color: chipForegroundColor,
+                    height: 1.29,
+                  ),
+                ),
+                if (icon != null) ...[
+                  const SizedBox(width: 4),
+                  Icon(icon, color: chipForegroundColor),
+                ],
+              ],
             ),
           ),
         ),

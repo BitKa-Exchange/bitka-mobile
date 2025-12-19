@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 
 class AgreementField extends StatelessWidget {
   final String agreementText;
@@ -62,12 +63,8 @@ class AgreementField extends StatelessWidget {
               Flexible(
                 child: Text(
                   agreementText,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary, // Text-Neutral-On-Neutral
-                    fontSize: 16,
+                  style: AppTextStyles.bodyMediumSemiBold.copyWith(
                     fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w600,
-                    height: 1.40,
                   ),
                 ),
               ),
@@ -81,13 +78,8 @@ class AgreementField extends StatelessWidget {
               onTap: onLinkTap,
               child: Text(
                 linkText,
-                style: const TextStyle(
-                  color: AppColors.primaryPink, // The bright pink color
-                  fontSize: 16,
+                style: AppTextStyles.linkText.copyWith(
                   fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w600,
-                  height: 1.40,
-                  decoration: TextDecoration.underline, // Optional: for link clarity
                 ),
               ),
             ),

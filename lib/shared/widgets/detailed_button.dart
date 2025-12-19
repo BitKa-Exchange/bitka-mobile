@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-// Assuming AppColors is imported from your core/theme directory
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 
 class DetailedButton extends StatelessWidget {
   final String text;
@@ -87,22 +87,18 @@ class DetailedButton extends StatelessWidget {
                 // MAIN TEXT
                 Text(
                   text,
-                  style: TextStyle(
-                    color: foregroundColor,
-                    fontSize: 17,
+                  style: AppTextStyles.bodyLargeBold.copyWith(
                     fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w800,
+                    color: foregroundColor,
                   ),
                 ),
                 // SUB TEXT (Available Credit)
                 if (subText != null)
                   Text(
                     subText!,
-                    style: TextStyle(
-                      color: hasDetail ? foregroundColor : AppColors.textTertiary,
-                      fontSize: 12,
+                    style: AppTextStyles.captionSmallBold.copyWith(
                       fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w800,
+                      color: hasDetail ? foregroundColor : AppColors.textTertiary,
                     ),
                   ),
               ],
@@ -123,22 +119,18 @@ class DetailedButton extends StatelessWidget {
                   // RIGHT TEXT
                   Text(
                     rightText!,
-                    style: TextStyle(
-                      color: rightTextColor ?? foregroundColor,
-                      fontSize: 17, // Adjusted font size
+                    style: AppTextStyles.bodyLargeBold.copyWith(
                       fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w800, // Adjusted font weight
+                      color: rightTextColor ?? foregroundColor,
                     ),
                   ),
                   // SUB RIGHT TEXT
                   if (subRightText != null)
                     Text(
                       subRightText!,
-                      style: TextStyle(
-                        color: rightTextColor ?? AppColors.textSecondary, // Use AppColors.textTertiary for subtext in the min/default view
-                        fontSize: 12,
+                      style: AppTextStyles.captionSmallBold.copyWith(
                         fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w800,
+                        color: rightTextColor ?? AppColors.textSecondary,
                       ),
                     ),
                 ],
@@ -188,10 +180,8 @@ class DetailedButton extends StatelessWidget {
               // Detail Text
               Text(
                 detailText!,
-                style: TextStyle(
+                style: AppTextStyles.bodySmallSemiBold.copyWith(
                   color: foregroundColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

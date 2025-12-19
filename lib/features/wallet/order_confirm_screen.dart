@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:bitka/shared/widgets/button.dart';
 import 'package:bitka/shared/widgets/detailed_button.dart';
 import 'package:bitka/shared/widgets/page_selector/custom_appbar.dart';
@@ -51,20 +52,13 @@ class OrderConfirmScreen extends StatefulWidget {
 }
 
 class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
-  static const _subtitleStyle = TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 16,
+  static final _subtitleStyle = AppTextStyles.labelLarge.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w900,
-    height: 1.40,
   );
 
-  static const _detailStyle = TextStyle(
-    color: AppColors.textTertiary,
+  static final _detailStyle = AppTextStyles.bodyMediumMedium.copyWith(
     fontFamily: 'Montserrat',
     fontWeight: FontWeight.w400,
-    fontSize: 16,
-    height: 1.40,
   );
 
   @override

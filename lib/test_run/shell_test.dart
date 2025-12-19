@@ -1,8 +1,7 @@
-import 'dart:math';
 import 'package:bitka/core/theme/app_colors.dart';
 import 'package:bitka/features/app_shell/app_shell_screen.dart';
 import 'package:bitka/features/auth/login_screen.dart';
-import 'package:bitka/features/trading/trading_main_screen.dart';
+import 'package:bitka/features/trading/trading_asset_screen.dart';
 import 'package:bitka/providers/auth_provider.dart';
 import 'package:bitka/providers/ledger_provider.dart';
 import 'package:bitka/providers/market_data_provider.dart';
@@ -12,10 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
-
 const String environment = String.fromEnvironment(
-  'ENVIRONMENT', 
-  defaultValue: '.env.development'
+  'ENVIRONMENT',
+  defaultValue: '.env.development',
 );
 
 void main() async {
@@ -37,7 +35,7 @@ void main() async {
 }
 
 class BitkaApp extends StatelessWidget {
-  const BitkaApp({super.key}); 
+  const BitkaApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,20 +43,11 @@ class BitkaApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Bitka',
       theme: ThemeData(
-        fontFamily: 'Montserrat', 
-        scaffoldBackgroundColor: AppColors.background, 
+        fontFamily: 'Montserrat',
+        scaffoldBackgroundColor: AppColors.background,
         useMaterial3: true,
       ),
-      home: TradingMainScreen(
-        children: List.generate(100, (index) {
-          return TradingTile(
-            title: index.toString(),
-            isNew: index%2==0,
-            favorited: index%2!=0,
-            price: Random(index).nextDouble()*1000,
-          );
-        }),
-      ) // const AuthChecker(), 
+      home: TradingAssetScreen(), // const AuthChecker(),
     );
   }
 }
@@ -80,13 +69,13 @@ class _AuthCheckerState extends State<AuthChecker> {
   Future<void> _checkAuthStatus() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     await authProvider.checkAuthStatus();
-    
+
     if (mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => authProvider.isAuthenticated
-            ? const AppShellScreen() 
-            : const LoginScreen(),
+              ? const AppShellScreen()
+              : const LoginScreen(),
         ),
       );
     }
@@ -102,13 +91,14 @@ class _AuthCheckerState extends State<AuthChecker> {
           gradient: LinearGradient(
             begin: Alignment(0.50, -0.00),
             end: Alignment(0.50, 1.00),
-            colors: [AppColors.backgroundGradient1, AppColors.backgroundGradient2],
+            colors: [
+              AppColors.backgroundGradient1,
+              AppColors.backgroundGradient2,
+            ],
           ),
         ),
         child: const Center(
-          child: CircularProgressIndicator(
-            color: AppColors.textPrimary,
-          ),
+          child: CircularProgressIndicator(color: AppColors.textPrimary),
         ),
       ),
     );

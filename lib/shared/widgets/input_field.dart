@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 
 
 class InputField extends StatelessWidget {
@@ -53,23 +54,17 @@ class InputField extends StatelessWidget {
           fillColor: secondary, 
           filled: true,
           labelText: labelText,
-          labelStyle: const TextStyle(
-            color: AppColors.textTertiary,
-            fontSize: 16,
+          labelStyle: AppTextStyles.inputLabel.copyWith(
             fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w400,
-            height: 1.40,
           ),
           suffixIconConstraints: const BoxConstraints(minWidth: 50, maxWidth: 50),
           suffixIcon: suffixIcon ?? Padding(
                 padding: const EdgeInsets.only(),//only(right: 16.0),
                 child: Text(
                   suffixLabel ?? 'Label',
-                  style: TextStyle(
-                    color: textSecondary,
-                    fontSize: 16,
+                  style: AppTextStyles.bodyMediumBold.copyWith(
                     fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w800,
+                    color: textSecondary,
                   ),
                 ),
               ),

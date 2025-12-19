@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:bitka/shared/widgets/custom_chip.dart';
 import 'package:bitka/shared/widgets/icon_chip.dart';
 import 'package:bitka/shared/widgets/page_selector/custom_appbar.dart';
@@ -17,7 +18,7 @@ class TradingTile extends StatelessWidget {
   final String? priceCurrency;
   final bool favorited;
   final bool isNew;
-  final String apiId;
+  final String assetId;
   const TradingTile({
     super.key,
     this.icon = const Placeholder(color: AppColors.backgroundWarning),
@@ -27,51 +28,33 @@ class TradingTile extends StatelessWidget {
     this.price = 0,
     this.priceCurrency,
     this.favorited = false,
-    this.isNew = false, required this.apiId,
+    this.isNew = false, required this.assetId,
   });
 
   static const defaultPriceCurrency = 'THB';
 
-  static const _titleStyle = TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 16,
+  static final _titleStyle = AppTextStyles.bodyMediumBold.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w800,
   );
 
-  static const _subStyle = TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 16,
+  static final _subStyle = AppTextStyles.bodyMediumRegular.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w400,
   );
 
-  static const _priceStyle = TextStyle(
-    color: AppColors.textPrimary,
-    fontSize: 14,
+  static final _priceStyle = AppTextStyles.bodySmallSemiBold.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w600,
   );
 
-  static const _bullishStyle = TextStyle(
-    color: AppColors.utilityGreen,
-    fontSize: 14,
+  static final _bullishStyle = AppTextStyles.trendBullish.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w600,
   );
 
-  static const _bearishStyle = TextStyle(
-    color: AppColors.utilityRed,
-    fontSize: 14,
+  static final _bearishStyle = AppTextStyles.trendBearish.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w600,
   );
 
-  static const _neutralStyle = TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 14,
+  static final _neutralStyle = AppTextStyles.trendNeutral.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w600,
   );
 
   @override

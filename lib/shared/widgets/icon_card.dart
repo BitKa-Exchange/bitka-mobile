@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 
 class IconCard extends StatelessWidget {
   final IconData icon;
@@ -52,11 +53,9 @@ class IconCard extends StatelessWidget {
             Text(
               label,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 14,
+              style: AppTextStyles.bodySmallSemiBold.copyWith(
                 fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w600,
+                color: textColor,
               ),
             ),
           ],

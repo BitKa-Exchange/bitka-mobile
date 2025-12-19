@@ -1,4 +1,5 @@
 import 'package:bitka/core/theme/app_colors.dart';
+import 'package:bitka/core/theme/app_text_styles.dart';
 import 'package:bitka/features/account/setup_pages/profile_setup_consent_screen.dart';
 import 'package:bitka/shared/widgets/button.dart';
 import 'package:bitka/shared/widgets/input_field.dart';
@@ -55,13 +56,10 @@ class _ProfileSetupContactScreenState extends State<ProfileSetupContactScreen> {
                   const SizedBox(height: 24),
 
                   // Section Title
-                  const Text(
+                  Text(
                     'Contact Info',
-                    style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 20,
+                    style: AppTextStyles.titleMedium.copyWith(
                       fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -152,12 +150,8 @@ class _FieldLabel extends StatelessWidget {
 
   const _FieldLabel({required this.label});
 
-  static const _labelStyle = TextStyle(
-    color: AppColors.textSecondary,
-    fontSize: 16,
+  static final _labelStyle = AppTextStyles.labelLarge.copyWith(
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w900,
-    height: 1.40,
   );
 
   @override
