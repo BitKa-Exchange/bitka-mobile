@@ -47,7 +47,7 @@ class BitkaApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.background,
         useMaterial3: true,
       ),
-      home: TradingAssetScreen(), // const AuthChecker(),
+      home: TradingAssetScreen(assetId: 'asdsa'), // const AuthChecker(),
     );
   }
 }

@@ -94,6 +94,12 @@ abstract final class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
+  static const TextStyle bodyMediumSemiBoldSquished = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    height: 1.40,
+    color: AppColors.textPrimary,
+  );
   /// Standard body text regular - 16px, w400, height 1.40
   /// Used in: input_field (label), trading_main_screen (_subStyle)
   static const TextStyle bodyMediumRegular = TextStyle(

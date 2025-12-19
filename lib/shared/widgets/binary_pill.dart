@@ -59,7 +59,7 @@ class _BinaryPillState extends State<BinaryPill>
     super.dispose();
   }
 
-  static final textStyle = AppTextStyles.chipText.copyWith();
+  static const textStyle = AppTextStyles.chipText;
 
   @override
   Widget build(BuildContext context) {
